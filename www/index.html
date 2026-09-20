@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kashmir Wood Industry - Production Report</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{--primary:#1e3a8a;--primary-light:#eff6ff;--secondary:#475569;--bg:#eef2f6;--card-bg:#fff;--text:#1e293b;--border:#cbd5e1;--accent:#059669;--danger:#dc2626;--warning:#d97706;--up:#16a34a;--down:#dc2626;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);padding:10px;font-size:13px;-webkit-font-smoothing:antialiased;}
+.container{max-width:1100px;margin:auto;background:var(--card-bg);padding:0 0 15px 0;border-radius:14px;box-shadow:0 10px 25px -5px rgba(0,0,0,0.1);overflow:hidden;border:1px solid rgba(255,255,255,0.5);}
+.toast-container{position:fixed;top:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none;}
+.toast{padding:12px 18px;border-radius:8px;color:#fff;font-weight:600;font-size:13px;box-shadow:0 4px 12px rgba(0,0,0,0.15);animation:slideIn .3s ease-out;pointer-events:auto;max-width:350px;display:flex;align-items:center;gap:8px;}
+.toast.success{background:linear-gradient(135deg,#059669,#10b981);}
+.toast.error{background:linear-gradient(135deg,#dc2626,#ef4444);}
+.toast.warning{background:linear-gradient(135deg,#d97706,#f59e0b);}
+.toast.info{background:linear-gradient(135deg,#1e3a8a,#3b82f6);}
+@keyframes slideIn{from{transform:translateX(400px);opacity:0;}to{transform:translateX(0);opacity:1;}}
+@keyframes slideOut{from{transform:translateX(0);opacity:1;}to{transform:translateX(400px);opacity:0;}}
+.loading-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:9998;display:none;justify-content:center;align-items:center;}
+.loading-overlay.active{display:flex;}
+.spinner{width:50px;height:50px;border:5px solid #e2e8f0;border-top:5px solid var(--primary);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{0%{transform:rotate(0);}100%{transform:rotate(360deg);}}
+.validation-icon{display:inline-block;margin-left:6px;font-size:14px;}
+.validation-icon.valid{color:var(--up);}
+.confirm-modal{display:none;position:fixed;z-index:9999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.5);justify-content:center;align-items:center;}
+.confirm-modal.active{display:flex;}
+.confirm-content{background:#fff;padding:25px;border-radius:12px;width:90%;max-width:400px;text-align:center;box-shadow:0 20px 40px rgba(0,0,0,.3);}
+.confirm-content h3{margin-bottom:10px;color:var(--primary);}
+.confirm-content p{margin-bottom:20px;color:#64748b;font-size:13px;line-height:1.5;white-space:pre-line;}
+.confirm-buttons{display:flex;gap:10px;justify-content:center;}
+/* LOGIN */
+.login-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 50%,#1e40af 100%);z-index:99999;display:flex;justify-content:center;align-items:center;padding:20px;}
+.login-box{background:#fff;padding:30px 25px;border-radius:16px;width:100%;max-width:380px;box-shadow:0 20px 50px rgba(0,0,0,.4);text-align:center;animation:loginSlideIn .4s ease-out;}
+@keyframes loginSlideIn{from{transform:translateY(-30px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.login-logo{font-size:40px;margin-bottom:10px;}
+.login-title{font-size:18px;font-weight:800;color:var(--primary);margin-bottom:3px;text-transform:uppercase;}
+.login-subtitle{font-size:11px;color:var(--secondary);margin-bottom:25px;text-transform:uppercase;letter-spacing:1px;}
+.offline-badge{display:inline-block;background:#fef3c7;color:#92400e;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:700;margin-bottom:10px;}
+.offline-badge.online{background:#ecfdf5;color:#065f46;}
+.pin-display{display:flex;justify-content:center;gap:12px;margin-bottom:20px;}
+.pin-dot{width:18px;height:18px;border-radius:50%;background:#e2e8f0;border:2px solid var(--border);transition:all .2s;}
+.pin-dot.filled{background:var(--primary);border-color:var(--primary);transform:scale(1.15);}
+.pin-dot.error{background:var(--danger);border-color:var(--danger);animation:shake .4s;}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
+.pin-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:15px;}
+.pin-key{padding:16px;font-size:20px;font-weight:700;background:#f1f5f9;border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .15s;color:var(--primary);user-select:none;}
+.pin-key:hover{background:var(--primary-light);border-color:var(--primary);}
+.pin-key:active{transform:scale(.95);background:var(--primary);color:#fff;}
+.pin-key.clear{background:#fef2f2;color:var(--danger);border-color:#fecaca;}
+.pin-key.clear:hover{background:var(--danger);color:#fff;}
+.pin-key.enter{background:#ecfdf5;color:var(--accent);border-color:#a7f3d0;}
+.pin-key.enter:hover{background:var(--accent);color:#fff;}
+.login-error{color:var(--danger);font-size:12px;font-weight:600;min-height:18px;margin-top:8px;}
+.login-hint{font-size:10px;color:#94a3b8;margin-top:12px;}
+.forgot-pin-btn{background:transparent;border:none;color:#1e3a8a;font-size:12px;font-weight:700;cursor:pointer;margin-top:12px;padding:6px 12px;text-decoration:underline;transition:color .2s;}
+.forgot-pin-btn:hover{color:#2563eb;}
+/* FORGOT MODAL */
+.forgot-modal{display:none;position:fixed;z-index:100000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.7);justify-content:center;align-items:center;padding:20px;}
+.forgot-modal.active{display:flex;}
+.forgot-content{background:#fff;padding:25px;border-radius:14px;width:100%;max-width:420px;box-shadow:0 20px 50px rgba(0,0,0,.4);animation:scaleIn .3s ease-out;}
+@keyframes scaleIn{from{transform:scale(.9);opacity:0;}to{transform:scale(1);opacity:1;}}
+.forgot-content h3{color:#1e3a8a;margin-bottom:8px;font-size:18px;text-align:center;}
+.forgot-content .subtitle{text-align:center;color:#64748b;font-size:12px;margin-bottom:20px;}
+.forgot-content .form-group{margin-bottom:15px;}
+.forgot-content label{display:block;font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;margin-bottom:5px;}
+.forgot-content select,.forgot-content input{width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:6px;font-size:13px;outline:none;transition:border .2s;}
+.forgot-content select:focus,.forgot-content input:focus{border-color:#1e3a8a;}
+.forgot-content .forgot-actions{display:flex;gap:10px;justify-content:center;margin-top:20px;}
+.forgot-msg{font-size:12px;font-weight:600;text-align:center;min-height:18px;margin-top:8px;}
+.forgot-msg.success{color:#059669;}
+.forgot-msg.error{color:#dc2626;}
+.forgot-msg.info{color:#1e3a8a;}
+.new-pin-section{display:none;margin-top:15px;padding-top:15px;border-top:1px dashed #cbd5e1;}
+.new-pin-section.active{display:block;}
+/* HEADER */
+.header{padding:15px 20px 12px;background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 50%,#1e40af 100%);color:#fff;box-shadow:0 4px 0 #0f2557;border-bottom:3px solid #0f2557;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.header-left{display:flex;flex-direction:column;gap:2px;}
+.company-name{font-size:22px;font-weight:900;color:#fff;letter-spacing:1.5px;text-transform:uppercase;text-shadow:1px 1px 0 #0f2557;line-height:1.1;}
+.report-title{font-size:10px;font-weight:600;color:#bfdbfe;text-transform:uppercase;letter-spacing:2px;}
+.header-right{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.12);padding:6px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.2);}
+.header-right label{font-size:10px;font-weight:700;color:#bfdbfe;text-transform:uppercase;}
+.header-right input[type="date"]{padding:4px 8px;border:1px solid rgba(255,255,255,.3);border-radius:4px;font-size:12px;background:rgba(255,255,255,.9);color:#1e3a8a;font-weight:700;outline:none;cursor:pointer;}
+/* TABS */
+.tabs{display:flex;gap:5px;margin:12px 20px 15px;border-bottom:2px solid var(--border);overflow-x:auto;flex-wrap:nowrap;}
+.tab{padding:8px 16px;background:transparent;border:none;font-size:12px;font-weight:700;color:var(--secondary);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;border-radius:6px 6px 0 0;white-space:nowrap;}
+.tab.active{color:var(--primary);border-bottom-color:var(--primary);background:var(--primary-light);}
+.tab-content{display:none;padding:0 15px;}
+.tab-content.active{display:block;}
+.section-title{background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff;padding:8px 12px;border-radius:6px;margin-top:15px;margin-bottom:8px;font-weight:700;font-size:13px;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;box-shadow:0 3px 0 #0f2557;}
+.section-title.green{background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 3px 0 #064e3b;}
+.section-title.orange{background:linear-gradient(135deg,#d97706,#f59e0b);box-shadow:0 3px 0 #92400e;}
+.section-title.purple{background:linear-gradient(135deg,#7c3aed,#a78bfa);box-shadow:0 3px 0 #4c1d95;}
+.table-responsive{width:100%;overflow-x:auto;margin-bottom:10px;border-radius:6px;border:1px solid var(--border);}
+table{width:100%;border-collapse:collapse;min-width:480px;}
+th,td{border:1px solid var(--border);padding:6px 8px;text-align:left;}
+th{background:#f1f5f9;color:var(--secondary);font-weight:700;font-size:10px;text-transform:uppercase;}
+tr:nth-child(even){background:#fcfcfc;}
+table input[type="number"]{width:100%;padding:6px;border:1px solid #e2e8f0;border-radius:4px;font-size:12px;outline:none;}
+table input[type="number"]:focus{border-color:var(--primary);background:var(--primary-light);}
+.readonly-input{background:#f1f5f9!important;font-weight:700;color:var(--primary);}
+.total-highlight{background:var(--primary-light)!important;font-weight:700;color:var(--primary);}
+.auto-calc-input{background:#fef3c7!important;font-weight:700;color:#92400e;border:1px dashed #d97706!important;}
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-top:8px;margin-bottom:15px;}
+.summary-item{background:#f8fafc;border:1px solid var(--border);border-radius:6px;padding:8px;display:flex;flex-direction:column;gap:3px;}
+.summary-item label{font-size:9px;font-weight:700;color:var(--secondary);text-transform:uppercase;text-align:center;}
+.summary-item input{padding:6px;border:1px solid #e2e8f0;border-radius:4px;font-size:13px;outline:none;text-align:center;font-weight:600;}
+.extract-table th{background:var(--secondary);color:#fff;}
+.extract-table td{text-align:right;}
+.extract-table td:first-child{text-align:left;font-weight:700;}
+.cb-box{background:#f8fafc;border:1px solid var(--border);border-left:4px solid var(--primary);border-radius:6px;padding:10px;margin:8px 0 12px;text-align:center;}
+.cb-box h3{color:var(--secondary);margin-bottom:3px;font-size:11px;text-transform:uppercase;font-weight:700;}
+.cb-box .cb-value{font-size:20px;font-weight:800;color:var(--primary);}
+.btn-container{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:15px;margin-bottom:10px;}
+.btn{padding:9px 14px;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700;transition:all .2s;display:flex;align-items:center;gap:5px;box-shadow:0 3px 0 rgba(0,0,0,.2);color:#fff;}
+.btn:hover{transform:translateY(-1px);}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.2);}
+.btn-print{background:#475569;}
+.btn-whatsapp{background:#25D366;}
+.btn-save{background:var(--accent);}
+.btn-image{background:var(--warning);}
+.btn-clear{background:#64748b;}
+.btn-edit{background:#8b5cf6;}
+.btn-delete{background:var(--danger);}
+.btn-sync{background:#0ea5e9;}
+.press-section{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.press-box{background:linear-gradient(135deg,#f8fafc,#e2e8f0);border:1px solid var(--border);border-radius:8px;padding:8px;}
+.press-box h4{font-size:11px;color:var(--primary);margin-bottom:6px;text-transform:uppercase;display:flex;align-items:center;gap:5px;border-bottom:1px solid var(--border);padding-bottom:5px;}
+.press-row{display:flex;align-items:center;gap:5px;margin-bottom:5px;flex-wrap:wrap;}
+.press-row label{font-size:11px;font-weight:600;color:var(--secondary);}
+.press-row select{padding:4px;border:1px solid #e2e8f0;border-radius:4px;font-size:11px;font-weight:700;background:#fff;color:var(--primary);outline:none;width:70px;}
+.press-row input{flex:1;padding:6px;border:1px solid #e2e8f0;border-radius:4px;font-size:12px;text-align:center;min-width:50px;}
+.press-row .thickness-input{width:55px;flex:none;}
+.press-row .press-output{font-weight:700;color:var(--accent);width:50px;text-align:center;background:#ecfdf5;border-radius:4px;padding:5px;font-size:11px;}
+.stat-cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:15px;}
+.stat-card{background:linear-gradient(135deg,#fff 0%,#f1f5f9 100%);border-radius:8px;padding:12px;text-align:center;border:1px solid var(--border);box-shadow:0 2px 4px rgba(0,0,0,.05);position:relative;overflow:hidden;}
+.stat-card::before{content:"";position:absolute;top:0;left:0;width:4px;height:100%;}
+.stat-card.units::before{background:#1e3a8a;}
+.stat-card.sheets::before{background:#059669;}
+.stat-card.cbm::before{background:#d97706;}
+.stat-card.avg::before{background:#7c3aed;}
+.stat-card.wapda::before{background:#dc2626;}
+.stat-card .stat-label{font-size:10px;font-weight:700;color:var(--secondary);text-transform:uppercase;margin-bottom:5px;}
+.stat-card .stat-value{font-size:20px;font-weight:800;color:var(--primary);}
+.stat-card .stat-sub{font-size:10px;color:var(--secondary);margin-top:3px;}
+.stat-change.up{color:var(--up);}
+.stat-change.down{color:var(--down);}
+.chart-container{position:relative;height:300px;width:100%;margin-bottom:15px;background:#fff;border-radius:8px;padding:12px;border:1px solid var(--border);}
+.charts-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:15px;}
+.footer{margin-top:15px;padding:10px 20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;background:#f8fafc;}
+.footer-left{font-size:10px;color:#64748b;}
+.footer-right{display:flex;flex-direction:column;align-items:flex-end;gap:2px;}
+.signature{font-family:'Brush Script MT','Segoe UI',cursive;font-size:22px;color:var(--primary);font-weight:700;letter-spacing:1px;line-height:1;}
+.signature-label{font-size:9px;color:#64748b;text-transform:uppercase;}
+.modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.5);justify-content:center;align-items:center;}
+.modal-content{background:#fff;padding:20px;border-radius:12px;width:90%;max-width:350px;text-align:center;}
+.modal-content h3{margin-bottom:10px;color:var(--primary);font-size:16px;}
+.modal-content input{width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;font-size:16px;text-align:center;letter-spacing:5px;margin-bottom:12px;}
+.modal-buttons{display:flex;gap:8px;justify-content:center;}
+/* SETTINGS */
+.settings-grid{display:grid;grid-template-columns:1fr;gap:15px;max-width:500px;margin:15px auto;}
+.setting-card{background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:15px;}
+.setting-card h3{font-size:13px;color:var(--primary);margin-bottom:10px;text-transform:uppercase;}
+.setting-card .form-row{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;}
+.setting-card label{font-size:11px;font-weight:700;color:var(--secondary);text-transform:uppercase;}
+.setting-card input,.setting-card select{padding:8px;border:1px solid var(--border);border-radius:6px;font-size:13px;outline:none;}
+.setting-card input:focus,.setting-card select:focus{border-color:var(--primary);}
+.info-box{background:#eff6ff;border-left:4px solid #1e3a8a;padding:10px 12px;border-radius:4px;font-size:11px;color:#1e3a8a;margin-bottom:10px;line-height:1.5;}
+.status-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:700;}
+.status-badge.online{background:#ecfdf5;color:#065f46;}
+.status-badge.offline{background:#fef3c7;color:#92400e;}
+@media print{body *{visibility:hidden;}#extractSection,#extractSection *{visibility:visible;}#extractSection{position:absolute;left:0;top:0;width:100%;}.no-print{display:none!important;}@page{margin:.5cm;}}
+@media(max-width:768px){.charts-grid-2{grid-template-columns:1fr;}}
+@media(max-width:600px){.container{border-radius:0;}.header{flex-direction:column;align-items:flex-start;padding:12px;}.header-right{width:100%;justify-content:center;}.company-name{font-size:18px;}.summary-grid{grid-template-columns:repeat(2,1fr);}.press-section{grid-template-columns:1fr;}.btn{padding:8px 12px;font-size:11px;}.tab-content{padding:0 8px;}.chart-container{height:250px;}.stat-cards-grid{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+    <div class="login-box">
+        <div class="login-logo">🔐</div>
+        <div class="login-title">Kashmir Wood Industry</div>
+        <div class="login-subtitle">Enter Security PIN</div>
+        <div class="offline-badge" id="networkStatus">🌐 Checking...</div>
+        <div class="pin-display">
+            <div class="pin-dot"></div>
+            <div class="pin-dot"></div>
+            <div class="pin-dot"></div>
+            <div class="pin-dot"></div>
+        </div>
+        <div class="pin-keypad">
+            <button class="pin-key" onclick="enterPin('1')">1</button>
+            <button class="pin-key" onclick="enterPin('2')">2</button>
+            <button class="pin-key" onclick="enterPin('3')">3</button>
+            <button class="pin-key" onclick="enterPin('4')">4</button>
+            <button class="pin-key" onclick="enterPin('5')">5</button>
+            <button class="pin-key" onclick="enterPin('6')">6</button>
+            <button class="pin-key" onclick="enterPin('7')">7</button>
+            <button class="pin-key" onclick="enterPin('8')">8</button>
+            <button class="pin-key" onclick="enterPin('9')">9</button>
+            <button class="pin-key clear" onclick="clearPin()">CLR</button>
+            <button class="pin-key" onclick="enterPin('0')">0</button>
+            <button class="pin-key enter" onclick="submitPin()">✓</button>
+        </div>
+        <div class="login-error" id="loginError"></div>
+        <button class="forgot-pin-btn" onclick="openForgotPinModal()">🔑 Forgot PIN?</button>
+        <div class="login-hint">Only authorized personnel can access</div>
+    </div>
+</div>
+
+<!-- FORGOT PIN MODAL -->
+<div class="forgot-modal" id="forgotModal">
+    <div class="forgot-content">
+        <h3>🔑 Forgot PIN?</h3>
+        <div class="subtitle">Recover your PIN using security question</div>
+        <div class="form-group">
+            <label>Security Question</label>
+            <select id="forgotQuestion">
+                <option value="">Select your question...</option>
+                <option value="Your Birth City">Your Birth City</option>
+                <option value="Your Mother's Name">Your Mother's Name</option>
+                <option value="Your Pet Name">Your Pet Name</option>
+                <option value="Your First School">Your First School</option>
+                <option value="Your Favorite Color">Your Favorite Color</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Your Answer</label>
+            <input type="text" id="forgotAnswer" placeholder="Enter your answer">
+        </div>
+        <div class="forgot-msg" id="forgotMsg"></div>
+        <div class="new-pin-section" id="newPinSection">
+            <div class="form-group">
+                <label>New PIN (4 digits)</label>
+                <input type="password" id="forgotNewPin" maxlength="4" placeholder="****">
+            </div>
+            <div class="form-group">
+                <label>Confirm New PIN</label>
+                <input type="password" id="forgotConfirmPin" maxlength="4" placeholder="****">
+            </div>
+        </div>
+        <div class="forgot-actions">
+            <button class="btn btn-save" onclick="handleForgotPin()" id="forgotActionBtn">Verify</button>
+            <button class="btn btn-clear" onclick="closeForgotPinModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+<div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div></div>
+
+<div class="confirm-modal" id="confirmModal">
+    <div class="confirm-content">
+        <h3 id="confirmTitle">Are you sure?</h3>
+        <p id="confirmMessage">This action cannot be undone.</p>
+        <div class="confirm-buttons">
+            <button class="btn btn-save" onclick="confirmYes()">Yes, Confirm</button>
+            <button class="btn btn-clear" onclick="confirmNo()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="reportContainer" style="display:none;">
+    <div class="header">
+        <div class="header-left">
+            <div class="company-name">Kashmir Wood Industry</div>
+            <div class="report-title">Daily Production & Consumption Report</div>
+        </div>
+        <div class="header-right">
+            <label>Date</label>
+            <input type="date" id="reportDate">
+        </div>
+    </div>
+
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab('daily', this)">📊 Daily</button>
+        <button class="tab" onclick="switchTab('monthly', this)">📈 Monthly</button>
+        <button class="tab" onclick="switchTab('weekly', this)">📅 Weekly</button>
+        <button class="tab" onclick="switchTab('yearly', this)">📆 Yearly</button>
+        <button class="tab" onclick="switchTab('linewise', this)">🏭 Line-wise</button>
+        <button class="tab" onclick="switchTab('settings', this)">⚙️ Settings</button>
+        <button class="tab" onclick="logout()" style="margin-left:auto;color:#dc2626;">🚪 Logout</button>
+    </div>
+
+    <!-- DAILY -->
+    <div id="dailyTab" class="tab-content active">
+        <div class="section-title"><span>Shift A (Day) <span id="shiftAValidation" class="validation-icon"></span></span></div>
+        <div class="table-responsive">
+            <table><thead><tr><th>Section</th><th>Prev Reading</th><th>Curr Reading</th><th>Ratio</th><th>Units</th></tr></thead><tbody id="shiftATable"></tbody></table>
+        </div>
+        <div class="press-section">
+            <div class="press-box">
+                <h4>🖨️ Press Line 1</h4>
+                <div class="press-row">
+                    <label>Line:</label>
+                    <select id="shiftAPressLine1Type"><option value="20">Line 1</option><option value="30">Line 2</option></select>
+                    <label>Thick:</label>
+                    <input type="number" id="shiftAThicknessL1" class="thickness-input" value="18" step="0.1">
+                    <input type="number" id="shiftAPressL1" placeholder="Loads" oninput="calculatePressSheets('shiftA')">
+                    <div class="press-output" id="shiftASheetL1">0</div>
+                </div>
+            </div>
+            <div class="press-box">
+                <h4>🖨️ Press Line 2</h4>
+                <div class="press-row">
+                    <label>Line:</label>
+                    <select id="shiftAPressLine2Type"><option value="20">Line 1</option><option value="30" selected>Line 2</option></select>
+                    <label>Thick:</label>
+                    <input type="number" id="shiftAThicknessL2" class="thickness-input" value="18" step="0.1">
+                    <input type="number" id="shiftAPressL2" placeholder="Loads" oninput="calculatePressSheets('shiftA')">
+                    <div class="press-output" id="shiftASheetL2">0</div>
+                </div>
+            </div>
+        </div>
+        <div class="summary-grid">
+            <div class="summary-item"><label>Total Units</label><input type="number" id="shiftATotalUnits" class="readonly-input" readonly value="0"></div>
+            <div class="summary-item"><label>Total Sheet</label><input type="number" id="shiftASheet" class="readonly-input" readonly value="0"></div>
+            <div class="summary-item"><label>CBM</label><input type="number" id="shiftACBM" class="readonly-input" readonly value="0"></div>
+            <div class="summary-item"><label>U/Sheet</label><input type="number" id="shiftAUSheet" class="readonly-input" readonly value="0"></div>
+            <div class="summary-item"><label>U/CBM</label><input type="number" id="shiftAUCBM" class="readonly-input" readonly value="0"></div>
+        </div>
+
+        <div class="section-title"><span>Shift B (Night) <span id="shiftBValidation" class="validation-icon"></span></span></div>
+        <div class="table-responsive">
+            <table><thead><tr><th>Section</th><th>Prev Reading</th><th>Curr Reading</th><th>Ratio</th><th>Units</th></tr></thead><tbody id="shiftBTable"></tbody></table>
+        </div>
+        <div class="press-section">
+            <div class="press-box">
+                <h4>🖨️ Press Line 1</h4>
+                <div class="press-row">
+                    <label>Line:</label>
+                    <select id="shiftBPressLine1Type"><option value="20">Line 1</option><option value="30">Line 2</option></select>
+                    <label>Thick:</label>
+                    <input type="number" id="shiftBThicknessL1" class="thickness-input" value="18" step="0.1">
+                    <input type="number" id="shiftBPressL1" placeholder="Loads" oninput="calculatePressSheets('shiftB')">
+                    <div class="press-output" id="shiftBSheetL1">0</div>
+                </div>
+            </div>
+            <div class="press-box">
+                <h4>🖨️ Press Line 2</h4>
+                <div class="press-row">
+                    <label>Line:</label>
+                    <select id="shiftBPressLine2Type"><option value="20">Line 1</option><option value="30" selected>Line 2</option></select>
+                    <label>Thick:</label>
+                    <input type="number" id="shiftBThicknessL2" class="thickness-input" value="18" step="0.1">
+                    <input type="number" id="shiftBPressL2" placeholder="Loads" oninput="calculatePressSheets('shiftB')">
+                    <div class="press-output" id="shiftBSheetL2">0</div>
+                </div>
+            </div>
+        </div>
+        <div class="summary-grid">
+            <div class="summary-item"><label>Total Units</label><input type="number" id="shiftBTotalUnits" class="readonly-input" readonly value="0"></div>
+            <div class="summary-item"><label>Total Sheet</label><input type="number" id="shiftBSheet" class="readonly-input" readonly value="0"></div>
+            <div class="summary-item"><label>CBM</label><input type="number" id="shiftBCBM" class="readonly-input" readonly value="0"></div>
+            <div class="summary-item"><label>U/Sheet</label><input type="number" id="shiftBUSheet" class="readonly-input" readonly value="0"></div>
+            <div class="summary-item"><label>U/CBM</label><input type="number" id="shiftBUCBM" class="readonly-input" readonly value="0"></div>
+        </div>
+
+        <div class="section-title">WAPDA & CB</div>
+        <div class="table-responsive">
+            <table style="width:100%;margin-bottom:8px;">
+                <thead><tr><th>Meter</th><th>Prev</th><th>Curr</th><th>Ratio</th><th>Wapda Total</th></tr></thead>
+                <tbody><tr>
+                    <td>WAPDA</td>
+                    <td><input type="number" id="wapdaPrev" step="any" oninput="calculateWapda()"></td>
+                    <td><input type="number" id="wapdaCurr" step="any" oninput="calculateWapda()"></td>
+                    <td><input type="text" value="8000" readonly style="background:#f1f5f9;font-weight:bold;text-align:center;"></td>
+                    <td><input type="number" id="wapdaTotal" class="readonly-input" readonly value="0"></td>
+                </tr></tbody>
+            </table>
+        </div>
+        <div class="cb-box"><h3>CB (Chipboard) = Wapda Total - (Shift A + Shift B)</h3><div class="cb-value" id="cbValue">0.00</div></div>
+
+        <div id="extractSection">
+            <div class="section-title">Extract Details (Summary)</div>
+            <div class="table-responsive">
+                <table class="extract-table"><thead><tr><th>Section</th><th>Shift A</th><th>Shift B</th><th>Total</th></tr></thead><tbody id="extractTable"></tbody></table>
+            </div>
+        </div>
+
+        <div class="btn-container no-print">
+            <button class="btn btn-save" onclick="saveData()">💾 Save & Next</button>
+            <button class="btn btn-image" onclick="saveAsImage('daily')">📷 JPG/PNG</button>
+            <button class="btn btn-print" onclick="printReport()">🖨️ PDF</button>
+            <button class="btn btn-whatsapp" onclick="copyForWhatsApp()">📲 WhatsApp</button>
+            <button class="btn btn-sync" onclick="syncToFirebase()">☁️ Sync</button>
+            <button class="btn btn-edit" onclick="editLastEntry()">✏️ Edit</button>
+            <button class="btn btn-delete" onclick="promptDelete()">🗑️ Delete</button>
+            <button class="btn btn-clear" onclick="promptClear()">🧹 Clear</button>
+        </div>
+    </div>
+
+    <!-- MONTHLY -->
+    <div id="monthlyTab" class="tab-content">
+        <div style="display:flex;gap:10px;justify-content:center;margin:15px 0;flex-wrap:wrap;">
+            <div style="display:flex;flex-direction:column;gap:3px;">
+                <label style="font-size:10px;font-weight:700;color:var(--secondary);">Select Month</label>
+                <input type="month" id="reportMonth" onchange="loadMonthlyData()" style="padding:6px;border:1px solid var(--border);border-radius:6px;font-size:13px;">
+            </div>
+        </div>
+        <div class="section-title">📊 Monthly Total Units Consumption</div>
+        <div class="stat-cards-grid" id="monthStats"></div>
+        <div class="section-title">📈 Units Trend (Daily)</div>
+        <div class="chart-container"><canvas id="chartUnits"></canvas></div>
+        <div class="charts-grid-2">
+            <div>
+                <div class="section-title green">📦 Sheets Trend</div>
+                <div class="chart-container" style="height:280px;"><canvas id="chartSheets"></canvas></div>
+            </div>
+            <div>
+                <div class="section-title orange">📐 CBM Trend</div>
+                <div class="chart-container" style="height:280px;"><canvas id="chartCBM"></canvas></div>
+            </div>
+        </div>
+        <div class="section-title purple">📊 Averages Trend (U/Sheet & U/CBM)</div>
+        <div class="chart-container"><canvas id="chartAvg"></canvas></div>
+        <div class="section-title">📋 Monthly Data (Day by Day)</div>
+        <div class="table-responsive">
+            <table><thead><tr><th>Date</th><th>Shift A</th><th>Shift B</th><th>Total Units</th><th>Sheet</th><th>CBM</th><th>U/Sheet</th><th>U/CBM</th><th>Wapda</th><th>CB</th><th>% Change</th></tr></thead><tbody id="monthlyTableBody"></tbody></table>
+        </div>
+        <div class="btn-container no-print">
+            <button class="btn btn-image" onclick="saveAsImage('monthly')">📷 Image</button>
+            <button class="btn btn-print" onclick="window.print()">🖨️ PDF</button>
+            <button class="btn btn-whatsapp" onclick="copyMonthlyForWhatsApp()">📲 WhatsApp</button>
+        </div>
+    </div>
+
+    <!-- WEEKLY -->
+    <div id="weeklyTab" class="tab-content">
+        <div style="display:flex;gap:10px;justify-content:center;margin:15px 0;">
+            <div style="display:flex;flex-direction:column;gap:3px;">
+                <label style="font-size:10px;font-weight:700;color:var(--secondary);">Select Week (Start Date)</label>
+                <input type="date" id="reportWeek" onchange="loadWeeklyData()" style="padding:6px;border:1px solid var(--border);border-radius:6px;font-size:13px;">
+            </div>
+        </div>
+        <div class="stat-cards-grid" id="weekStats"></div>
+        <div class="section-title">Weekly Trend</div>
+        <div class="chart-container"><canvas id="chartCanvasWeekly"></canvas></div>
+        <div class="section-title">Weekly Data</div>
+        <div class="table-responsive">
+            <table><thead><tr><th>Date</th><th>Day</th><th>Shift A</th><th>Shift B</th><th>Total Units</th><th>Sheet</th><th>CBM</th><th>U/Sheet</th><th>U/CBM</th></tr></thead><tbody id="weeklyTableBody"></tbody></table>
+        </div>
+        <div class="btn-container no-print">
+            <button class="btn btn-image" onclick="saveAsImage('weekly')">📷 Image</button>
+            <button class="btn btn-print" onclick="window.print()">🖨️ PDF</button>
+        </div>
+    </div>
+
+    <!-- YEARLY -->
+    <div id="yearlyTab" class="tab-content">
+        <div style="display:flex;gap:10px;justify-content:center;margin:15px 0;">
+            <div style="display:flex;flex-direction:column;gap:3px;">
+                <label style="font-size:10px;font-weight:700;color:var(--secondary);">Select Year</label>
+                <select id="reportYear" onchange="loadYearlyData()" style="padding:6px;border:1px solid var(--border);border-radius:6px;font-size:13px;"></select>
+            </div>
+        </div>
+        <div class="stat-cards-grid" id="yearStats"></div>
+        <div class="section-title">Yearly Trend (Month-wise)</div>
+        <div class="chart-container"><canvas id="chartCanvasYearly"></canvas></div>
+        <div class="section-title">Yearly Data</div>
+        <div class="table-responsive">
+            <table><thead><tr><th>Month</th><th>Total Units</th><th>Sheet</th><th>CBM</th><th>Avg U/Sheet</th><th>Avg U/CBM</th><th>Wapda</th><th>CB</th></tr></thead><tbody id="yearlyTableBody"></tbody></table>
+        </div>
+        <div class="btn-container no-print">
+            <button class="btn btn-image" onclick="saveAsImage('yearly')">📷 Image</button>
+            <button class="btn btn-print" onclick="window.print()">🖨️ PDF</button>
+        </div>
+    </div>
+
+    <!-- LINE-WISE -->
+    <div id="linewiseTab" class="tab-content">
+        <div style="display:flex;gap:10px;justify-content:center;margin:15px 0;">
+            <div style="display:flex;flex-direction:column;gap:3px;">
+                <label style="font-size:10px;font-weight:700;color:var(--secondary);">Select Month</label>
+                <input type="month" id="reportLineMonth" onchange="loadLineWiseData()" style="padding:6px;border:1px solid var(--border);border-radius:6px;font-size:13px;">
+            </div>
+        </div>
+        <div class="stat-cards-grid" id="lineStats"></div>
+        <div class="section-title">Line 1 vs Line 2</div>
+        <div class="chart-container"><canvas id="chartCanvasLinewise"></canvas></div>
+        <div class="section-title">Line-wise Detailed Data</div>
+        <div class="table-responsive">
+            <table><thead><tr><th>Date</th><th>L1 Shift A</th><th>L1 Shift B</th><th>L1 Total</th><th>L2 Shift A</th><th>L2 Shift B</th><th>L2 Total</th><th>Grand Total</th></tr></thead><tbody id="linewiseTableBody"></tbody></table>
+        </div>
+        <div class="btn-container no-print">
+            <button class="btn btn-image" onclick="saveAsImage('linewise')">📷 Image</button>
+            <button class="btn btn-print" onclick="window.print()">🖨️ PDF</button>
+        </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div id="settingsTab" class="tab-content">
+        <div class="section-title">⚙️ Settings</div>
+        <div class="settings-grid">
+            <div class="setting-card">
+                <h3>🔐 Change PIN</h3>
+                <div class="info-box">PIN change karne ke liye purana PIN dalein. Naya PIN 4 digits ka hona chahiye.</div>
+                <div class="form-row"><label>Current PIN</label><input type="password" id="oldPin" maxlength="4" placeholder="****"></div>
+                <div class="form-row"><label>New PIN (4 digits)</label><input type="password" id="newPin" maxlength="4" placeholder="****"></div>
+                <div class="form-row"><label>Confirm New PIN</label><input type="password" id="confirmPin" maxlength="4" placeholder="****"></div>
+                <button class="btn btn-save" onclick="changePin()">💾 Update PIN</button>
+            </div>
+
+            <div class="setting-card">
+                <h3>🔑 Security Question (Forgot PIN)</h3>
+                <div class="info-box">Ye question Forgot PIN recover karne ke liye use hoga. Zaroor set karein.</div>
+                <div class="form-row">
+                    <label>Security Question</label>
+                    <select id="settingsSecurityQ">
+                        <option value="">Select a question...</option>
+                        <option value="Your Birth City">Your Birth City</option>
+                        <option value="Your Mother's Name">Your Mother's Name</option>
+                        <option value="Your Pet Name">Your Pet Name</option>
+                        <option value="Your First School">Your First School</option>
+                        <option value="Your Favorite Color">Your Favorite Color</option>
+                    </select>
+                </div>
+                <div class="form-row"><label>Answer</label><input type="text" id="settingsSecurityA" placeholder="Your answer"></div>
+                <button class="btn btn-save" onclick="saveSecurityQuestion()">💾 Save Security Question</button>
+            </div>
+
+            <div class="setting-card">
+                <h3>☁️ Reset PIN from Cloud</h3>
+                <div class="info-box">Agar aap PIN bhool gaye hain toh cloud se reset karein.</div>
+                <button class="btn btn-sync" onclick="resetPinFromCloud()">☁️ Reset from Cloud</button>
+            </div>
+
+            <div class="setting-card">
+                <h3>📡 Network & Sync Status</h3>
+                <div style="margin-bottom:10px;">Status: <span class="status-badge" id="settingsNetworkBadge">Checking...</span></div>
+                <div style="margin-bottom:10px;">Firebase: <span class="status-badge" id="settingsFirebaseBadge">Checking...</span></div>
+                <div style="margin-bottom:10px;">Pending Sync: <strong id="settingsPendingCount">0</strong></div>
+                <button class="btn btn-sync" onclick="forceSyncAll()">☁️ Force Sync All</button>
+            </div>
+
+            <div class="setting-card">
+                <h3>🗑️ Delete Protection PIN</h3>
+                <div class="info-box">Delete button ke liye alag PIN. Current: <strong id="currentDeletePinDisplay">1234</strong></div>
+                <div class="form-row"><label>New Delete PIN (4 digits)</label><input type="password" id="newDeletePin" maxlength="4" placeholder="****"></div>
+                <button class="btn btn-delete" onclick="changeDeletePin()">🗑️ Update Delete PIN</button>
+            </div>
+
+            <div class="setting-card">
+                <h3>ℹ️ App Info</h3>
+                <div style="font-size:12px;line-height:1.8;color:#475569;">
+                    <div><strong>Version:</strong> 2.0</div>
+                    <div><strong>Developer:</strong> Yasir Khan</div>
+                    <div><strong>Offline Support:</strong> Yes ✅</div>
+                    <div><strong>Auto-Sync:</strong> Yes ✅</div>
+                    <div><strong>Data Storage:</strong> Local + Firebase</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-left">© Kashmir Wood Industry | Generated: <span id="footerDate"></span></div>
+        <div class="footer-right">
+            <div class="signature">Yasir Khan</div>
+            <div class="signature-label">Prepared By</div>
+        </div>
+    </div>
+</div>
+
+<div id="pinModal" class="modal">
+    <div class="modal-content">
+        <h3>🔐 Delete Protection</h3>
+        <p style="margin-bottom:10px;color:#64748b;font-size:12px;">Enter PIN to delete</p>
+        <input type="password" id="deletePin" maxlength="4" placeholder="****">
+        <div class="modal-buttons">
+            <button class="btn btn-delete" onclick="confirmDelete()">Delete</button>
+            <button class="btn btn-clear" onclick="closePinModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ================================================================
+// CONFIG
+// ================================================================
+let ACCESS_PIN = localStorage.getItem('kwi_access_pin') || "7860";
+let DELETE_PIN = localStorage.getItem('kwi_delete_pin') || "1234";
+const SESSION_HOURS = 8;
+const sections = ["NEW Defi and Dryer","NEW Defi LT","NEW Press and Forming (30 Op)","OLD Defi Motor","OLD Defi LT","OLD Press and Forming (20 Op)","Sanding","Sanding Blower","Main Reading"];
+const OLD_PRESS_INDEX = 5;
+
+// ================================================================
+// TOAST / LOADING / CONFIRM
+// ================================================================
+function showToast(message, type='info', duration=3500){
+    const c=document.getElementById('toastContainer');
+    const t=document.createElement('div');
+    t.className=`toast ${type}`;
+    const icons={success:'✅',error:'❌',warning:'⚠️',info:'ℹ️'};
+    t.innerHTML=`<span>${icons[type]||'ℹ️'}</span> <span>${message}</span>`;
+    c.appendChild(t);
+    setTimeout(()=>{t.style.animation='slideOut .3s ease-in forwards';setTimeout(()=>t.remove(),300);},duration);
+}
+function showLoading(){document.getElementById('loadingOverlay').classList.add('active');}
+function hideLoading(){document.getElementById('loadingOverlay').classList.remove('active');}
+let confirmCallback=null;
+function showConfirm(title,message,cb){
+    document.getElementById('confirmTitle').innerText=title;
+    document.getElementById('confirmMessage').innerText=message;
+    document.getElementById('confirmModal').classList.add('active');
+    confirmCallback=cb;
+}
+function confirmYes(){document.getElementById('confirmModal').classList.remove('active');if(confirmCallback)confirmCallback();confirmCallback=null;}
+function confirmNo(){document.getElementById('confirmModal').classList.remove('active');confirmCallback=null;}
+
+// ================================================================
+// NETWORK STATUS
+// ================================================================
+function updateNetworkStatus(){
+    const online=navigator.onLine;
+    const b=document.getElementById('networkStatus');
+    if(b){b.className=online?'offline-badge online':'offline-badge';b.innerText=online?'🌐 Online':'📴 Offline';}
+    const sb=document.getElementById('settingsNetworkBadge');
+    if(sb){sb.className='status-badge '+(online?'online':'offline');sb.innerText=online?'🌐 Online':'📴 Offline';}
+    if(online)setTimeout(autoSyncPending,2000);
+}
+window.addEventListener('online',updateNetworkStatus);
+window.addEventListener('offline',updateNetworkStatus);
+
+// ================================================================
+// FIREBASE
+// ================================================================
+const firebaseConfig={
+    apiKey:"AIzaSyCcrEPcxOZZpE1p86IpdqqFpiJEUdsBr-Y",
+    authDomain:"electrical-log-fe4b7.firebaseapp.com",
+    databaseURL:"https://electrical-log-fe4b7-default-rtdb.firebaseio.com",
+    projectId:"electrical-log-fe4b7",
+    storageBucket:"electrical-log-fe4b7.firebasestorage.app",
+    messagingSenderId:"530439306427",
+    appId:"1:530439306427:web:ecc00cc60270c8a5297d9e",
+    measurementId:"G-GK1L3M9JQW"
+};
+let firebaseReady=false;
+let db=null;
+
+async function initFirebase(){
+    try{
+        const{initializeApp}=await import("https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js");
+        const{getFirestore,doc,setDoc,getDoc,deleteDoc,enableIndexedDbPersistence}=await import("https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js");
+        const app=initializeApp(firebaseConfig);
+        db=getFirestore(app);
+        try{await enableIndexedDbPersistence(db);}catch(e){console.log("Offline:",e.code);}
+        window.firestore={doc,setDoc,getDoc,deleteDoc};
+        firebaseReady=true;
+        const badge=document.getElementById('settingsFirebaseBadge');
+        if(badge){badge.className='status-badge online';badge.innerText='✅ Connected';}
+        console.log("✅ Firebase initialized!");
+    }catch(e){
+        console.warn("Firebase init failed:",e);
+        const badge=document.getElementById('settingsFirebaseBadge');
+        if(badge){badge.className='status-badge offline';badge.innerText='📴 Offline Mode';}
+    }
+}
+initFirebase();
+
+// ================================================================
+// PENDING SYNC
+// ================================================================
+function queuePendingSync(date,data){
+    let p=JSON.parse(localStorage.getItem('pendingSync')||'{}');
+    p[date]=data;
+    localStorage.setItem('pendingSync',JSON.stringify(p));
+    updatePendingCount();
+}
+function removePendingSync(date){
+    let p=JSON.parse(localStorage.getItem('pendingSync')||'{}');
+    delete p[date];
+    localStorage.setItem('pendingSync',JSON.stringify(p));
+    updatePendingCount();
+}
+function updatePendingCount(){
+    const p=JSON.parse(localStorage.getItem('pendingSync')||'{}');
+    const el=document.getElementById('settingsPendingCount');
+    if(el)el.innerText=Object.keys(p).length;
+}
+async function autoSyncPending(){
+    if(!firebaseReady||!navigator.onLine)return;
+    const p=JSON.parse(localStorage.getItem('pendingSync')||'{}');
+    const dates=Object.keys(p);
+    if(dates.length===0)return;
+    const{doc,setDoc}=window.firestore;
+    for(const date of dates){
+        try{await setDoc(doc(db,"reports",date),p[date]);removePendingSync(date);}catch(e){console.warn("Sync failed:",date,e);}
+    }
+    showToast("Pending items synced!","success");
+}
+async function forceSyncAll(){
+    if(!firebaseReady){showToast("Firebase not ready","warning");return;}
+    if(!navigator.onLine){showToast("No internet connection","warning");return;}
+    await autoSyncPending();
+}
+
+// ================================================================
+// LOGIN LOGIC
+// ================================================================
+let currentPin="";
+function enterPin(d){
+    if(currentPin.length>=4)return;
+    currentPin+=d;
+    updatePinDisplay();
+    document.getElementById('loginError').innerText='';
+    if(currentPin.length===4)setTimeout(submitPin,200);
+}
+function clearPin(){currentPin="";updatePinDisplay();document.getElementById('loginError').innerText='';}
+function updatePinDisplay(){
+    document.querySelectorAll('.pin-dot').forEach((d,i)=>{
+        d.classList.remove('filled','error');
+        if(i<currentPin.length)d.classList.add('filled');
+    });
+}
+function submitPin(){
+    const err=document.getElementById('loginError');
+    if(currentPin.length!==4){err.innerText="Enter 4-digit PIN";return;}
+    if(currentPin===ACCESS_PIN){
+        showToast("Welcome!","success");
+        const exp=Date.now()+(SESSION_HOURS*60*60*1000);
+        sessionStorage.setItem('kwi_session',exp.toString());
+        sessionStorage.setItem('kwi_login_time',new Date().toISOString());
+        document.getElementById('loginScreen').style.display='none';
+        document.getElementById('reportContainer').style.display='block';
+        initializeApp();
+    }else{
+        err.innerText="❌ Incorrect PIN";
+        document.querySelectorAll('.pin-dot').forEach(d=>d.classList.add('error'));
+        setTimeout(()=>{currentPin="";updatePinDisplay();},500);
+    }
+}
+function logout(){
+    showConfirm("Logout?","Kya aap logout karna chahte hain?",()=>{
+        sessionStorage.removeItem('kwi_session');
+        sessionStorage.removeItem('kwi_login_time');
+        location.reload();
+    });
+}
+async function checkSession(){
+    const exp=sessionStorage.getItem('kwi_session');
+    if(exp&&parseInt(exp)>Date.now()){
+        document.getElementById('loginScreen').style.display='none';
+        document.getElementById('reportContainer').style.display='block';
+        initializeApp();
+        setTimeout(syncSecurityFromCloud,2000);
+        return true;
+    }
+    return false;
+}
+document.addEventListener('keydown',e=>{
+    const ls=document.getElementById('loginScreen');
+    if(ls&&ls.style.display!=='none'){
+        if(e.key>='0'&&e.key<='9')enterPin(e.key);
+        else if(e.key==='Enter')submitPin();
+        else if(e.key==='Backspace'){currentPin=currentPin.slice(0,-1);updatePinDisplay();}
+        else if(e.key==='Escape')clearPin();
+    }
+});
+
+// ================================================================
+// FORGOT PIN
+// ================================================================
+let forgotPinVerified=false;
+function openForgotPinModal(){
+    document.getElementById('forgotModal').classList.add('active');
+    document.getElementById('forgotQuestion').value='';
+    document.getElementById('forgotAnswer').value='';
+    document.getElementById('forgotMsg').innerText='';
+    document.getElementById('forgotMsg').className='forgot-msg';
+    document.getElementById('newPinSection').classList.remove('active');
+    document.getElementById('forgotNewPin').value='';
+    document.getElementById('forgotConfirmPin').value='';
+    document.getElementById('forgotActionBtn').innerText='Verify';
+    forgotPinVerified=false;
+}
+function closeForgotPinModal(){document.getElementById('forgotModal').classList.remove('active');}
+
+async function handleForgotPin(){
+    const msg=document.getElementById('forgotMsg');
+    if(!forgotPinVerified){
+        const q=document.getElementById('forgotQuestion').value;
+        const a=document.getElementById('forgotAnswer').value.trim().toLowerCase();
+        if(!q||!a){msg.className='forgot-msg error';msg.innerText='Please select question and enter answer.';return;}
+        const sq=localStorage.getItem('kwi_security_question');
+        const sa=localStorage.getItem('kwi_security_answer');
+        if(!sq||!sa){
+            msg.className='forgot-msg info';
+            msg.innerText='No security question set. Please set new PIN.';
+            forgotPinVerified=true;
+            document.getElementById('newPinSection').classList.add('active');
+            document.getElementById('forgotActionBtn').innerText='Set New PIN';
+            return;
+        }
+        if(q!==sq||a!==sa){msg.className='forgot-msg error';msg.innerText='❌ Incorrect answer.';return;}
+        if(firebaseReady&&db&&navigator.onLine){
+            try{
+                const{doc,getDoc}=window.firestore;
+                const snap=await getDoc(doc(db,"settings","security"));
+                if(snap.exists()){
+                    const cd=snap.data();
+                    if(cd.question!==q||(cd.answer||'').toLowerCase()!==a){msg.className='forgot-msg error';msg.innerText='❌ Cloud verification failed.';return;}
+                }
+            }catch(e){console.warn(e);}
+        }
+        msg.className='forgot-msg success';
+        msg.innerText='✅ Verified! Set new PIN.';
+        forgotPinVerified=true;
+        document.getElementById('newPinSection').classList.add('active');
+        document.getElementById('forgotActionBtn').innerText='Set New PIN';
+    }else{
+        const np=document.getElementById('forgotNewPin').value;
+        const cp=document.getElementById('forgotConfirmPin').value;
+        if(np.length!==4){msg.className='forgot-msg error';msg.innerText='PIN must be 4 digits.';return;}
+        if(np!==cp){msg.className='forgot-msg error';msg.innerText='PINs do not match.';return;}
+        ACCESS_PIN=np;
+        localStorage.setItem('kwi_access_pin',np);
+        if(firebaseReady&&db&&navigator.onLine){
+            try{
+                const{doc,setDoc}=window.firestore;
+                await setDoc(doc(db,"settings","pin"),{pin:np,updatedAt:new Date().toISOString()});
+            }catch(e){console.warn(e);}
+        }
+        msg.className='forgot-msg success';
+        msg.innerText='✅ PIN reset successfully!';
+        setTimeout(()=>{closeForgotPinModal();showToast('PIN reset! Please login.','success');},1500);
+    }
+}
+
+// ================================================================
+// SETTINGS FUNCTIONS
+// ================================================================
+async function syncSecurityFromCloud(){
+    if(!firebaseReady||!db||!navigator.onLine)return;
+    try{
+        const{doc,getDoc}=window.firestore;
+        const snap=await getDoc(doc(db,"settings","security"));
+        if(snap.exists()){
+            const d=snap.data();
+            if(d.question&&d.answer){
+                localStorage.setItem('kwi_security_question',d.question);
+                localStorage.setItem('kwi_security_answer',d.answer);
+                console.log("✅ Security synced");
+            }
+        }
+    }catch(e){console.warn(e);}
+}
+
+async function saveSecurityQuestion(){
+    const q=document.getElementById('settingsSecurityQ').value;
+    const a=document.getElementById('settingsSecurityA').value.trim();
+    if(!q||!a){showToast("Please select question and enter answer.","warning");return;}
+    localStorage.setItem('kwi_security_question',q);
+    localStorage.setItem('kwi_security_answer',a.toLowerCase());
+    if(firebaseReady&&db&&navigator.onLine){
+        try{
+            const{doc,setDoc}=window.firestore;
+            await setDoc(doc(db,"settings","security"),{question:q,answer:a.toLowerCase(),updatedAt:new Date().toISOString()});
+            showToast("Saved & synced!","success");
+        }catch(e){showToast("Saved locally.","info");}
+    }else showToast("Saved locally.","info");
+    document.getElementById('settingsSecurityA').value='';
+}
+
+function loadSecurityQuestionDisplay(){
+    const q=localStorage.getItem('kwi_security_question');
+    if(q){const sel=document.getElementById('settingsSecurityQ');if(sel)sel.value=q;}
+}
+
+function changePin(){
+    const oldP=document.getElementById('oldPin').value;
+    const newP=document.getElementById('newPin').value;
+    const confP=document.getElementById('confirmPin').value;
+    if(oldP!==ACCESS_PIN){showToast("Purana PIN ghalat hai.","error");return;}
+    if(newP.length!==4){showToast("Naya PIN 4 digits ka hona chahiye.","warning");return;}
+    if(newP!==confP){showToast("PINs match nahi karte.","error");return;}
+    ACCESS_PIN=newP;
+    localStorage.setItem('kwi_access_pin',newP);
+    if(firebaseReady&&db&&navigator.onLine){
+        try{const{doc,setDoc}=window.firestore;setDoc(doc(db,"settings","pin"),{pin:newP,updatedAt:new Date().toISOString()});}catch(e){}
+    }
+    document.getElementById('oldPin').value='';
+    document.getElementById('newPin').value='';
+    document.getElementById('confirmPin').value='';
+    showToast("PIN changed!","success");
+}
+
+async function resetPinFromCloud(){
+    if(!firebaseReady||!navigator.onLine){showToast("Internet chahiye.","warning");return;}
+    try{
+        const{doc,getDoc}=window.firestore;
+        const snap=await getDoc(doc(db,"settings","pin"));
+        if(snap.exists()){
+            const cp=snap.data().pin;
+            if(cp&&cp.length===4){
+                ACCESS_PIN=cp;
+                localStorage.setItem('kwi_access_pin',cp);
+                showToast(`PIN reset: ${cp}`,"success");
+            }else showToast("Cloud PIN invalid.","error");
+        }else{showToast("Cloud PIN nahi mila. Default: 7860","info");ACCESS_PIN="7860";localStorage.setItem('kwi_access_pin',"7860");}
+    }catch(e){showToast("Reset failed: "+e.message,"error");}
+}
+
+function changeDeletePin(){
+    const np=document.getElementById('newDeletePin').value;
+    if(np.length!==4){showToast("Delete PIN 4 digits ka hona chahiye.","warning");return;}
+    DELETE_PIN=np;
+    localStorage.setItem('kwi_delete_pin',np);
+    document.getElementById('newDeletePin').value='';
+    document.getElementById('currentDeletePinDisplay').innerText=np;
+    showToast("Delete PIN updated!","success");
+}
+
+// ================================================================
+// APP INIT
+// ================================================================
+let appInitialized=false;
+function initializeApp(){
+    if(appInitialized)return;
+    appInitialized=true;
+    generateTableRows('shiftA');
+    generateTableRows('shiftB');
+    const t=new Date();
+    document.getElementById('reportDate').value=t.toISOString().split('T')[0];
+    document.getElementById('reportMonth').value=t.toISOString().substring(0,7);
+    document.getElementById('reportWeek').value=t.toISOString().split('T')[0];
+    document.getElementById('reportLineMonth').value=t.toISOString().substring(0,7);
+    document.getElementById('footerDate').innerText=t.toLocaleDateString();
+    const ys=document.getElementById('reportYear');
+    if(ys){
+        const cy=t.getFullYear();
+        for(let y=cy-2;y<=cy+1;y++){
+            const o=document.createElement('option');o.value=y;o.textContent=y;
+            if(y===cy)o.selected=true;ys.appendChild(o);
+        }
+    }
+    loadSavedData();
+    updateNetworkStatus();
+    updatePendingCount();
+    setTimeout(()=>{loadMonthlyData();},300);
+}
+
+function switchTab(name,btn){
+    if(name==='logout')return;
+    document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(b=>{if(!b.innerText.includes('Logout'))b.classList.remove('active');});
+    document.getElementById(name+'Tab').classList.add('active');
+    btn.classList.add('active');
+    if(name==='monthly')loadMonthlyData();
+    if(name==='weekly')loadWeeklyData();
+    if(name==='yearly')loadYearlyData();
+    if(name==='linewise')loadLineWiseData();
+    if(name==='settings')updateSettingsDisplay();
+}
+
+function updateSettingsDisplay(){
+    updateNetworkStatus();
+    updatePendingCount();
+    document.getElementById('currentDeletePinDisplay').innerText=DELETE_PIN;
+    loadSecurityQuestionDisplay();
+    if(firebaseReady){
+        const b=document.getElementById('settingsFirebaseBadge');
+        b.className='status-badge online';b.innerText='✅ Connected';
+    }
+}
+
+// ================================================================
+// TABLE GENERATION
+// ================================================================
+function generateTableRows(shiftId){
+    const tbody=document.getElementById(shiftId+'Table');
+    tbody.innerHTML='';
+    sections.forEach((section,index)=>{
+        const tr=document.createElement('tr');
+        const ratioOpts=`<select class="multiplier" id="${shiftId}_mult_${index}" onchange="calculateShift('${shiftId}');${shiftId==='shiftA'?`syncMultiplier(${index})`:''}"><option value="1">1 (kWh)</option><option value="1000">1000 (MWh)</option><option value="8000">8000 (GWh)</option><option value="1000000">1000000 (GWh)</option></select>`;
+        if(section==="OLD Press and Forming (20 Op)"){
+            tr.style.backgroundColor="#fef3c7";
+            tr.innerHTML=`<td><strong>${section}</strong> <small style="color:#d97706;font-size:9px;">(Auto)</small></td><td><input type="number" readonly style="background:#fef3c7;border:none;text-align:center;" value="-"></td><td><input type="number" readonly style="background:#fef3c7;border:none;text-align:center;" value="-"></td><td><input type="text" readonly style="background:#fef3c7;border:none;text-align:center;font-weight:700;color:#92400e;" value="Auto"></td><td><input type="number" class="units auto-calc-input" id="${shiftId}_units_${index}" readonly value="0"></td>`;
+        }else if(section==="Main Reading"){
+            tr.style.backgroundColor="#f0fdf4";
+            tr.innerHTML=`<td><strong>${section}</strong></td><td><input type="number" step="any" class="prev-read" id="${shiftId}_prev_${index}" oninput="calculateShift('${shiftId}')"></td><td><input type="number" step="any" class="curr-read" id="${shiftId}_curr_${index}" oninput="calculateShift('${shiftId}');${shiftId==='shiftA'?`copyToShiftB(${index})`:''}"></td><td>${ratioOpts}</td><td><input type="number" class="units readonly-input" id="${shiftId}_units_${index}" readonly value="0"></td>`;
+        }else{
+            tr.innerHTML=`<td>${section}</td><td><input type="number" step="any" class="prev-read" id="${shiftId}_prev_${index}" oninput="calculateShift('${shiftId}')"></td><td><input type="number" step="any" class="curr-read" id="${shiftId}_curr_${index}" oninput="calculateShift('${shiftId}');${shiftId==='shiftA'?`copyToShiftB(${index})`:''}"></td><td>${ratioOpts}</td><td><input type="number" class="units readonly-input" id="${shiftId}_units_${index}" readonly value="0"></td>`;
+        }
+        tbody.appendChild(tr);
+    });
+}
+
+function syncMultiplier(i){
+    const a=document.getElementById('shiftA_mult_'+i).value;
+    const b=document.getElementById('shiftB_mult_'+i);
+    if(b){b.value=a;calculateShift('shiftB');}
+}
+function copyToShiftB(i){
+    const v=document.getElementById('shiftA_curr_'+i).value;
+    const p=document.getElementById('shiftB_prev_'+i);
+    if(p){p.value=v;calculateShift('shiftB');}
+}
+function calculatePressSheets(shiftId){
+    const p1=parseFloat(document.getElementById(shiftId+'PressL1').value)||0;
+    const t1=parseFloat(document.getElementById(shiftId+'ThicknessL1').value)||18;
+    const s1=p1*20;
+    const c1=s1*32*0.09290304*(t1/1000);
+    const p2=parseFloat(document.getElementById(shiftId+'PressL2').value)||0;
+    const t2=parseFloat(document.getElementById(shiftId+'ThicknessL2').value)||18;
+    const s2=p2*30;
+    const c2=s2*32*0.09290304*(t2/1000);
+    document.getElementById(shiftId+'SheetL1').innerText=s1;
+    document.getElementById(shiftId+'SheetL2').innerText=s2;
+    document.getElementById(shiftId+'Sheet').value=s1+s2;
+    document.getElementById(shiftId+'CBM').value=(c1+c2).toFixed(4);
+    calculateShift(shiftId);
+}
+function calculateShift(shiftId){
+    const tbody=document.getElementById(shiftId+'Table');
+    const rows=tbody.querySelectorAll('tr');
+    let otherSum=0,mainUnits=0;
+    rows.forEach((row,i)=>{
+        const sec=sections[i];
+        const pv=row.querySelector('.prev-read')?.value||"";
+        const cv=row.querySelector('.curr-read')?.value||"";
+        const m=parseFloat(row.querySelector('.multiplier')?.value)||1;
+        let u=0;
+        if(pv!==""&&cv!=="")u=((parseFloat(cv)||0)-(parseFloat(pv)||0))*m;
+        if(isNaN(u))u=0;
+        if(sec==="Main Reading"){mainUnits=u;row.querySelector('.units').value=u.toFixed(2);}
+        else if(sec==="OLD Press and Forming (20 Op)"){}
+        else{otherSum+=u;row.querySelector('.units').value=u.toFixed(2);}
+    });
+    const oldP=mainUnits-otherSum;
+    rows.forEach((row,i)=>{if(sections[i]==="OLD Press and Forming (20 Op)")row.querySelector('.units').value=oldP.toFixed(2);});
+    document.getElementById(shiftId+'TotalUnits').value=mainUnits.toFixed(2);
+    const sh=parseFloat(document.getElementById(shiftId+'Sheet').value)||0;
+    const cb=parseFloat(document.getElementById(shiftId+'CBM').value)||0;
+    document.getElementById(shiftId+'USheet').value=sh>0?(mainUnits/sh).toFixed(2):0;
+    document.getElementById(shiftId+'UCBM').value=cb>0?(mainUnits/cb).toFixed(2):0;
+    updateExtractDetails();calculateCB();
+}
+function calculateWapda(){
+    const p=parseFloat(document.getElementById('wapdaPrev').value)||0;
+    const c=parseFloat(document.getElementById('wapdaCurr').value)||0;
+    document.getElementById('wapdaTotal').value=((c-p)*8000).toFixed(2);
+    updateExtractDetails();calculateCB();
+}
+function calculateCB(){
+    const w=parseFloat(document.getElementById('wapdaTotal').value)||0;
+    const a=parseFloat(document.getElementById('shiftATotalUnits').value)||0;
+    const b=parseFloat(document.getElementById('shiftBTotalUnits').value)||0;
+    document.getElementById('cbValue').innerText=(w-(a+b)).toFixed(2);
+    updateExtractDetails();
+}
+function updateExtractDetails(){
+    const tb=document.getElementById('extractTable');tb.innerHTML='';
+    let tA=0,tB=0;
+    const ar=document.getElementById('shiftATable').querySelectorAll('tr');
+    const br=document.getElementById('shiftBTable').querySelectorAll('tr');
+    const wt=parseFloat(document.getElementById('wapdaTotal').value)||0;
+    let tr=document.createElement('tr');
+    tr.innerHTML=`<td><strong>WAPDA Total</strong></td><td>-</td><td>-</td><td class="total-highlight">${wt.toFixed(2)}</td>`;
+    tb.appendChild(tr);
+    const cbv=parseFloat(document.getElementById('cbValue').innerText)||0;
+    tr=document.createElement('tr');
+    tr.innerHTML=`<td><strong>CB (Chipboard)</strong></td><td>-</td><td>-</td><td class="total-highlight">${cbv.toFixed(2)}</td>`;
+    tb.appendChild(tr);
+    let sA=0,sB=0;
+    sections.forEach((sec,i)=>{
+        let vA=parseFloat(ar[i].querySelector('.units').value)||0;
+        let vB=parseFloat(br[i].querySelector('.units').value)||0;
+        if(sec==="Sanding"){sA+=vA;sB+=vB;}
+        else if(sec==="Sanding Blower"){
+            sA+=vA;sB+=vB;const t=sA+sB;tA+=sA;tB+=sB;
+            const x=document.createElement('tr');
+            x.innerHTML=`<td><strong>Sanding (Subtotal)</strong></td><td>${sA.toFixed(2)}</td><td>${sB.toFixed(2)}</td><td class="total-highlight">${t.toFixed(2)}</td>`;
+            tb.appendChild(x);
+        }else if(sec==="Main Reading"){
+            const t=vA+vB;tA=vA;tB=vB;
+            const x=document.createElement('tr');x.style.backgroundColor="#f0fdf4";
+            x.innerHTML=`<td><strong>Main Reading</strong></td><td>${vA.toFixed(2)}</td><td>${vB.toFixed(2)}</td><td class="total-highlight">${t.toFixed(2)}</td>`;
+            tb.appendChild(x);
+        }else{
+            const t=vA+vB;tA+=vA;tB+=vB;
+            const x=document.createElement('tr');
+            const isAuto=sec==="OLD Press and Forming (20 Op)";
+            if(isAuto)x.style.backgroundColor="#fef3c7";
+            x.innerHTML=`<td>${sec}${isAuto?' <small style="color:#d97706;">(Auto)</small>':''}</td><td>${vA.toFixed(2)}</td><td>${vB.toFixed(2)}</td><td class="total-highlight">${t.toFixed(2)}</td>`;
+            tb.appendChild(x);
+        }
+    });
+    const addR=(l,a,b)=>{
+        const x=document.createElement('tr');
+        x.innerHTML=`<td><strong>${l}</strong></td><td>${a.toFixed(2)}</td><td>${b.toFixed(2)}</td><td class="total-highlight">${(a+b).toFixed(2)}</td>`;
+        tb.appendChild(x);
+    };
+    addR('Press L1 (Loads)',parseFloat(document.getElementById('shiftAPressL1').value)||0,parseFloat(document.getElementById('shiftBPressL1').value)||0);
+    addR('Press L2 (Loads)',parseFloat(document.getElementById('shiftAPressL2').value)||0,parseFloat(document.getElementById('shiftBPressL2').value)||0);
+    addR('Sheet Total',parseFloat(document.getElementById('shiftASheet').value)||0,parseFloat(document.getElementById('shiftBSheet').value)||0);
+    addR('CBM Total',parseFloat(document.getElementById('shiftACBM').value)||0,parseFloat(document.getElementById('shiftBCBM').value)||0);
+    addR('U/Sheet (Overall)',parseFloat(document.getElementById('shiftAUSheet').value)||0,parseFloat(document.getElementById('shiftBUSheet').value)||0);
+    addR('U/CBM (Overall)',parseFloat(document.getElementById('shiftAUCBM').value)||0,parseFloat(document.getElementById('shiftBUCBM').value)||0);
+    const g=document.createElement('tr');
+    g.innerHTML=`<td style="background:#e2e8f0;"><strong>GRAND TOTAL</strong></td><td style="background:#e2e8f0;">${tA.toFixed(2)}</td><td style="background:#e2e8f0;">${tB.toFixed(2)}</td><td style="background:#e2e8f0;font-weight:bold;color:#1e3a8a;">${(tA+tB).toFixed(2)}</td>`;
+    tb.appendChild(g);
+}
+
+// ================================================================
+// SAVE
+// ================================================================
+async function saveData(){
+    const d=document.getElementById('reportDate').value;
+    if(!d){showToast("Please select a date.","warning");return;}
+    performSave(d);
+}
+async function performSave(dateVal){
+    showLoading();
+    try{
+        const day={
+            date:dateVal,timestamp:new Date().toISOString(),
+            shiftATotal:parseFloat(document.getElementById('shiftATotalUnits').value)||0,
+            shiftBTotal:parseFloat(document.getElementById('shiftBTotalUnits').value)||0,
+            totalUnits:(parseFloat(document.getElementById('shiftATotalUnits').value)||0)+(parseFloat(document.getElementById('shiftBTotalUnits').value)||0),
+            sheetA:parseFloat(document.getElementById('shiftASheet').value)||0,
+            sheetB:parseFloat(document.getElementById('shiftBSheet').value)||0,
+            sheet:(parseFloat(document.getElementById('shiftASheet').value)||0)+(parseFloat(document.getElementById('shiftBSheet').value)||0),
+            cbmA:parseFloat(document.getElementById('shiftACBM').value)||0,
+            cbmB:parseFloat(document.getElementById('shiftBCBM').value)||0,
+            cbm:(parseFloat(document.getElementById('shiftACBM').value)||0)+(parseFloat(document.getElementById('shiftBCBM').value)||0),
+            wapda:parseFloat(document.getElementById('wapdaTotal').value)||0,
+            cb:parseFloat(document.getElementById('cbValue').innerText)||0,
+            pressL1A:parseFloat(document.getElementById('shiftAPressL1').value)||0,
+            pressL2A:parseFloat(document.getElementById('shiftAPressL2').value)||0,
+            pressL1B:parseFloat(document.getElementById('shiftBPressL1').value)||0,
+            pressL2B:parseFloat(document.getElementById('shiftBPressL2').value)||0,
+            rawData:{}
+        };
+        day.usheet=day.sheet>0?day.totalUnits/day.sheet:0;
+        day.ucbm=day.cbm>0?day.totalUnits/day.cbm:0;
+        sections.forEach((_,i)=>{
+            day.rawData['shiftA_prev_'+i]=document.getElementById('shiftA_prev_'+i)?.value||"";
+            day.rawData['shiftA_curr_'+i]=document.getElementById('shiftA_curr_'+i)?.value||"";
+            day.rawData['shiftA_mult_'+i]=document.getElementById('shiftA_mult_'+i)?.value||'1';
+            day.rawData['shiftB_prev_'+i]=document.getElementById('shiftB_prev_'+i)?.value||"";
+            day.rawData['shiftB_curr_'+i]=document.getElementById('shiftB_curr_'+i)?.value||"";
+            day.rawData['shiftB_mult_'+i]=document.getElementById('shiftB_mult_'+i)?.value||'1';
+        });
+        const mk=dateVal.substring(0,7);
+        let md=JSON.parse(localStorage.getItem('monthlyData_'+mk)||'[]');
+        md=md.filter(d=>d.date!==dateVal);
+        md.push(day);md.sort((a,b)=>a.date.localeCompare(b.date));
+        localStorage.setItem('monthlyData_'+mk,JSON.stringify(md));
+        localStorage.setItem('lastSavedData',JSON.stringify(day));
+        if(firebaseReady&&db&&navigator.onLine){
+            try{
+                const{doc,setDoc}=window.firestore;
+                await setDoc(doc(db,"reports",dateVal),day);
+                showToast("Saved & Synced!","success");
+                removePendingSync(dateVal);
+            }catch(e){showToast("Saved locally. Will sync.","warning");queuePendingSync(dateVal,day);}
+        }else{queuePendingSync(dateVal,day);showToast("Saved locally. Auto-sync pending.","info");}
+        sections.forEach((_,i)=>{
+            if(i===OLD_PRESS_INDEX)return;
+            const bc=document.getElementById('shiftB_curr_'+i)?.value||"";
+            const bm=document.getElementById('shiftB_mult_'+i)?.value||'1';
+            if(bc!==""){
+                localStorage.setItem('shiftA_prev_'+i,bc);
+                localStorage.setItem('shiftA_mult_'+i,bm);
+                document.getElementById('shiftA_prev_'+i).value=bc;
+                document.getElementById('shiftA_mult_'+i).value=bm;
+            }
+            document.getElementById('shiftA_curr_'+i).value="";
+            document.getElementById('shiftB_curr_'+i).value="";
+            document.getElementById('shiftB_prev_'+i).value="";
+            document.getElementById('shiftA_units_'+i).value="0";
+            document.getElementById('shiftB_units_'+i).value="0";
+        });
+        ['shiftATotalUnits','shiftBTotalUnits','shiftASheet','shiftBSheet','shiftACBM','shiftBCBM','shiftAUSheet','shiftBUSheet','shiftAUCBM','shiftBUCBM'].forEach(id=>document.getElementById(id).value='0');
+        ['shiftAPressL1','shiftAPressL2','shiftBPressL1','shiftBPressL2'].forEach(id=>document.getElementById(id).value="");
+        ['shiftASheetL1','shiftASheetL2','shiftBSheetL1','shiftBSheetL2'].forEach(id=>document.getElementById(id).innerText="0");
+        const wc=document.getElementById('wapdaCurr').value;
+        if(wc!==""){localStorage.setItem('wapdaPrev',wc);document.getElementById('wapdaPrev').value=wc;document.getElementById('wapdaCurr').value="";document.getElementById('wapdaTotal').value="0";}
+        document.getElementById('cbValue').innerText='0.00';
+        calculateShift('shiftA');calculateShift('shiftB');
+        hideLoading();
+        showToast(`Data Saved for ${dateVal}!`,"success");
+    }catch(e){hideLoading();showToast("Save failed: "+e.message,"error");}
+}
+
+async function syncToFirebase(){
+    if(!firebaseReady||!db){showToast("Firebase not configured.","warning");return;}
+    if(!navigator.onLine){showToast("No internet.","warning");return;}
+    showLoading();
+    try{
+        const last=JSON.parse(localStorage.getItem('lastSavedData')||'null');
+        if(!last){hideLoading();showToast("No data.","warning");return;}
+        const{doc,setDoc}=window.firestore;
+        await setDoc(doc(db,"reports",last.date),last);
+        removePendingSync(last.date);
+        hideLoading();showToast("Synced!","success");
+    }catch(e){hideLoading();showToast("Sync failed: "+e.message,"error");}
+}
+
+// ================================================================
+// WHATSAPP / IMAGE / PRINT
+// ================================================================
+function copyForWhatsApp(){
+    let t=`*KASHMIR WOOD INDUSTRY*\n*Daily Report*\nDate: ${document.getElementById('reportDate').value}\n\n`;
+    t+=`*SHIFT A (DAY)*\nTotal Units: ${document.getElementById('shiftATotalUnits').value}\nPress L1: ${document.getElementById('shiftAPressL1').value||0} loads\nPress L2: ${document.getElementById('shiftAPressL2').value||0} loads\nSheet: ${document.getElementById('shiftASheet').value}\nCBM: ${document.getElementById('shiftACBM').value}\n\n`;
+    t+=`*SHIFT B (NIGHT)*\nTotal Units: ${document.getElementById('shiftBTotalUnits').value}\nPress L1: ${document.getElementById('shiftBPressL1').value||0} loads\nPress L2: ${document.getElementById('shiftBPressL2').value||0} loads\nSheet: ${document.getElementById('shiftBSheet').value}\nCBM: ${document.getElementById('shiftBCBM').value}\n\n`;
+    t+=`*WAPDA & CB*\nWAPDA: ${document.getElementById('wapdaTotal').value}\nCB: ${document.getElementById('cbValue').innerText}\n`;
+    navigator.clipboard.writeText(t).then(()=>showToast("Copied!","success"));
+}
+async function saveAsImage(tab){
+    showLoading();
+    const tm={daily:'dailyTab',monthly:'monthlyTab',weekly:'weeklyTab',yearly:'yearlyTab',linewise:'linewiseTab'};
+    const target=document.getElementById(tm[tab]);
+    const btns=target.querySelectorAll('.btn-container');
+    btns.forEach(b=>b.style.display='none');
+    try{
+        const canvas=await html2canvas(target,{scale:2,backgroundColor:'#ffffff',useCORS:true});
+        btns.forEach(b=>b.style.display='flex');
+        hideLoading();
+        canvas.toBlob(blob=>{
+            const file=new File([blob],`Kashmir_${tab}_${new Date().toISOString().split('T')[0]}.png`,{type:'image/png'});
+            if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
+                navigator.share({files:[file],title:'Kashmir Report'}).then(()=>showToast("Shared!","success")).catch(err=>{if(err.name!=='AbortError')downloadImage(canvas);});
+            }else downloadImage(canvas);
+        },'image/png');
+    }catch(e){btns.forEach(b=>b.style.display='flex');hideLoading();showToast('Image failed.',"error");}
+}
+function downloadImage(canvas){
+    const link=document.createElement('a');
+    link.download=`Kashmir_Report_${new Date().toISOString().split('T')[0]}.png`;
+    link.href=canvas.toDataURL('image/png');
+    link.click();showToast("Image saved!","success");
+}
+function printReport(){window.print();}
+
+// ================================================================
+// MONTHLY (4 CHARTS)
+// ================================================================
+let chartUnits=null,chartSheets=null,chartCBM=null,chartAvg=null,chartWeekly=null,chartYearly=null,chartLinewise=null;
+
+function loadMonthlyData(){
+    const m=document.getElementById('reportMonth').value;
+    if(!m)return;
+    const data=JSON.parse(localStorage.getItem('monthlyData_'+m)||'[]');
+    updateMonthlyStats(data);
+    drawMonthlyCharts(data);
+    renderMonthlyTable(data);
+}
+function updateMonthlyStats(data){
+    const c=document.getElementById('monthStats');
+    if(data.length===0){c.innerHTML='<div style="text-align:center;padding:20px;color:#64748b;grid-column:1/-1;">No data</div>';return;}
+    const tu=data.reduce((s,d)=>s+d.totalUnits,0);
+    const ts=data.reduce((s,d)=>s+d.sheet,0);
+    const tc=data.reduce((s,d)=>s+d.cbm,0);
+    const tw=data.reduce((s,d)=>s+d.wapda,0);
+    const tcb=data.reduce((s,d)=>s+d.cb,0);
+    const au=tu/data.length;
+    const aus=ts>0?tu/ts:0;
+    const auc=tc>0?tu/tc:0;
+    const h=Math.floor(data.length/2);
+    const af=h>0?data.slice(0,h).reduce((s,d)=>s+d.totalUnits,0)/h:0;
+    const as=h>0?data.slice(h).reduce((s,d)=>s+d.totalUnits,0)/(data.length-h):0;
+    const tr=af>0?((as-af)/af)*100:0;
+    c.innerHTML=`
+        <div class="stat-card units"><div class="stat-label">Total Units</div><div class="stat-value">${tu.toFixed(0)}</div><div class="stat-sub ${tr>=0?'stat-change up':'stat-change down'}">${tr>=0?'▲':'▼'} ${Math.abs(tr).toFixed(1)}%</div></div>
+        <div class="stat-card units"><div class="stat-label">Avg Daily Units</div><div class="stat-value">${au.toFixed(0)}</div></div>
+        <div class="stat-card sheets"><div class="stat-label">Total Sheets</div><div class="stat-value">${ts.toFixed(0)}</div></div>
+        <div class="stat-card cbm"><div class="stat-label">Total CBM</div><div class="stat-value">${tc.toFixed(1)}</div></div>
+        <div class="stat-card avg"><div class="stat-label">Avg U/Sheet</div><div class="stat-value">${aus.toFixed(2)}</div></div>
+        <div class="stat-card avg"><div class="stat-label">Avg U/CBM</div><div class="stat-value">${auc.toFixed(2)}</div></div>
+        <div class="stat-card wapda"><div class="stat-label">Total Wapda</div><div class="stat-value">${tw.toFixed(0)}</div></div>
+        <div class="stat-card wapda"><div class="stat-label">Total CB</div><div class="stat-value">${tcb.toFixed(0)}</div></div>`;
+}
+function drawMonthlyCharts(data){
+    if(chartUnits)chartUnits.destroy();
+    if(chartSheets)chartSheets.destroy();
+    if(chartCBM)chartCBM.destroy();
+    if(chartAvg)chartAvg.destroy();
+    if(data.length===0)return;
+    const labels=data.map(d=>d.date.substring(8));
+    const u=data.map(d=>d.totalUnits);
+    const s=data.map(d=>d.sheet);
+    const c=data.map(d=>d.cbm);
+    const us=data.map(d=>d.usheet);
+    const uc=data.map(d=>d.ucbm);
+    chartUnits=new Chart(document.getElementById('chartUnits'),{type:'line',data:{labels,datasets:[{label:'Units',data:u,borderColor:'#1e3a8a',backgroundColor:'rgba(30,58,138,0.1)',fill:true,tension:0.3,pointRadius:6,pointBackgroundColor:u.map((v,i)=>i>0&&v<u[i-1]?'#dc2626':'#16a34a')}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:false,grid:{color:'#e2e8f0'}},x:{grid:{display:false}}}}});
+    chartSheets=new Chart(document.getElementById('chartSheets'),{type:'bar',data:{labels,datasets:[{label:'Sheets',data:s,backgroundColor:'#059669',borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'#e2e8f0'}},x:{grid:{display:false}}}}});
+    chartCBM=new Chart(document.getElementById('chartCBM'),{type:'bar',data:{labels,datasets:[{label:'CBM',data:c,backgroundColor:'#d97706',borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'#e2e8f0'}},x:{grid:{display:false}}}}});
+    chartAvg=new Chart(document.getElementById('chartAvg'),{type:'line',data:{labels,datasets:[{label:'U/Sheet',data:us,borderColor:'#7c3aed',backgroundColor:'rgba(124,58,237,0.1)',fill:false,tension:0.3,pointRadius:5},{label:'U/CBM',data:uc,borderColor:'#f59e0b',backgroundColor:'rgba(245,158,11,0.1)',fill:false,tension:0.3,pointRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'top'}},scales:{y:{beginAtZero:false,grid:{color:'#e2e8f0'}},x:{grid:{display:false}}}}});
+}
+function renderMonthlyTable(data){
+    const tb=document.getElementById('monthlyTableBody');tb.innerHTML='';
+    if(data.length===0){tb.innerHTML='<tr><td colspan="11" style="text-align:center;padding:15px;color:#64748b;">No data</td></tr>';return;}
+    let prev=null;
+    data.forEach(d=>{
+        const tr=document.createElement('tr');
+        let pct='-',cls='';
+        if(prev!==null&&prev>0){const p=((d.totalUnits-prev)/prev)*100;pct=(p>=0?'+':'')+p.toFixed(1)+'%';cls=p>=0?'up':'down';}
+        prev=d.totalUnits;
+        tr.innerHTML=`<td>${d.date.substring(8)}</td><td>${d.shiftATotal.toFixed(0)}</td><td>${d.shiftBTotal.toFixed(0)}</td><td style="font-weight:700;">${d.totalUnits.toFixed(0)}</td><td>${d.sheet.toFixed(0)}</td><td>${d.cbm.toFixed(1)}</td><td>${d.usheet.toFixed(2)}</td><td>${d.ucbm.toFixed(2)}</td><td>${d.wapda.toFixed(0)}</td><td>${d.cb.toFixed(0)}</td><td class="stat-change ${cls}" style="font-weight:700;">${pct}</td>`;
+        tb.appendChild(tr);
+    });
+}
+
+// ================================================================
+// WEEKLY
+// ================================================================
+function loadWeeklyData(){
+    const sd=document.getElementById('reportWeek').value;
+    if(!sd)return;
+    const start=new Date(sd);const data=[];const dn=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    for(let i=0;i<7;i++){
+        const d=new Date(start);d.setDate(start.getDate()+i);
+        const ds=d.toISOString().split('T')[0];
+        const mk=ds.substring(0,7);
+        const md=JSON.parse(localStorage.getItem('monthlyData_'+mk)||'[]');
+        const day=md.find(x=>x.date===ds);
+        if(day)data.push({...day,dayName:dn[d.getDay()]});
+    }
+    const tb=document.getElementById('weeklyTableBody');tb.innerHTML='';
+    if(data.length===0){tb.innerHTML='<tr><td colspan="9" style="text-align:center;padding:15px;color:#64748b;">No data</td></tr>';document.getElementById('weekStats').innerHTML='<div style="text-align:center;padding:20px;color:#64748b;grid-column:1/-1;">No data</div>';return;}
+    let t=0,s=0,c=0;
+    data.forEach(d=>{
+        t+=d.totalUnits;s+=d.sheet;c+=d.cbm;
+        const tr=document.createElement('tr');
+        tr.innerHTML=`<td>${d.date}</td><td>${d.dayName}</td><td>${d.shiftATotal.toFixed(0)}</td><td>${d.shiftBTotal.toFixed(0)}</td><td style="font-weight:700;">${d.totalUnits.toFixed(0)}</td><td>${d.sheet.toFixed(0)}</td><td>${d.cbm.toFixed(1)}</td><td>${d.usheet.toFixed(2)}</td><td>${d.ucbm.toFixed(2)}</td>`;
+        tb.appendChild(tr);
+    });
+    document.getElementById('weekStats').innerHTML=`
+        <div class="stat-card"><div class="stat-label">Week Total</div><div class="stat-value">${t.toFixed(0)}</div></div>
+        <div class="stat-card"><div class="stat-label">Avg Daily</div><div class="stat-value">${(t/data.length).toFixed(0)}</div></div>
+        <div class="stat-card"><div class="stat-label">Total Sheet</div><div class="stat-value">${s.toFixed(0)}</div></div>
+        <div class="stat-card"><div class="stat-label">Total CBM</div><div class="stat-value">${c.toFixed(1)}</div></div>
+        <div class="stat-card"><div class="stat-label">Days</div><div class="stat-value">${data.length}</div></div>
+        <div class="stat-card"><div class="stat-label">Avg U/Sheet</div><div class="stat-value">${s>0?(t/s).toFixed(2):0}</div></div>`;
+    if(chartWeekly)chartWeekly.destroy();
+    chartWeekly=new Chart(document.getElementById('chartCanvasWeekly'),{type:'bar',data:{labels:data.map(d=>d.dayName+' '+d.date.substring(8)),datasets:[{label:'Units',data:data.map(d=>d.totalUnits),backgroundColor:data.map(d=>d.totalUnits>(t/data.length)?'#16a34a':'#dc2626'),borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'#e2e8f0'}},x:{grid:{display:false}}}}});
+}
+
+// ================================================================
+// YEARLY
+// ================================================================
+function loadYearlyData(){
+    const y=document.getElementById('reportYear').value;
+    if(!y)return;
+    const mn=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const stats=[];
+    for(let m=1;m<=12;m++){
+        const k=`${y}-${String(m).padStart(2,'0')}`;
+        const d=JSON.parse(localStorage.getItem('monthlyData_'+k)||'[]');
+        if(d.length>0){
+            const tu=d.reduce((s,x)=>s+x.totalUnits,0);
+            const ts=d.reduce((s,x)=>s+x.sheet,0);
+            const tc=d.reduce((s,x)=>s+x.cbm,0);
+            const tw=d.reduce((s,x)=>s+x.wapda,0);
+            const tcb=d.reduce((s,x)=>s+x.cb,0);
+            stats.push({month:mn[m-1],totalUnits:tu,sheet:ts,cbm:tc,wapda:tw,cb:tcb,days:d.length,avgUSheet:ts>0?tu/ts:0,avgUCBM:tc>0?tu/tc:0});
+        }
+    }
+    const tb=document.getElementById('yearlyTableBody');tb.innerHTML='';
+    if(stats.length===0){tb.innerHTML='<tr><td colspan="8" style="text-align:center;padding:15px;color:#64748b;">No data</td></tr>';document.getElementById('yearStats').innerHTML='<div style="text-align:center;padding:20px;color:#64748b;grid-column:1/-1;">No data</div>';return;}
+    let t=0,s=0,c=0,w=0,cb=0;
+    stats.forEach(m=>{
+        t+=m.totalUnits;s+=m.sheet;c+=m.cbm;w+=m.wapda;cb+=m.cb;
+        const tr=document.createElement('tr');
+        tr.innerHTML=`<td>${m.month}</td><td style="font-weight:700;">${m.totalUnits.toFixed(0)}</td><td>${m.sheet.toFixed(0)}</td><td>${m.cbm.toFixed(1)}</td><td>${m.avgUSheet.toFixed(2)}</td><td>${m.avgUCBM.toFixed(2)}</td><td>${m.wapda.toFixed(0)}</td><td>${m.cb.toFixed(0)}</td>`;
+        tb.appendChild(tr);
+    });
+    document.getElementById('yearStats').innerHTML=`
+        <div class="stat-card"><div class="stat-label">Year Total</div><div class="stat-value">${t.toFixed(0)}</div></div>
+        <div class="stat-card"><div class="stat-label">Months</div><div class="stat-value">${stats.length}</div></div>
+        <div class="stat-card"><div class="stat-label">Total Sheet</div><div class="stat-value">${s.toFixed(0)}</div></div>
+        <div class="stat-card"><div class="stat-label">Total CBM</div><div class="stat-value">${c.toFixed(1)}</div></div>
+        <div class="stat-card"><div class="stat-label">Total Wapda</div><div class="stat-value">${w.toFixed(0)}</div></div>
+        <div class="stat-card"><div class="stat-label">Total CB</div><div class="stat-value">${cb.toFixed(0)}</div></div>`;
+    if(chartYearly)chartYearly.destroy();
+    chartYearly=new Chart(document.getElementById('chartCanvasYearly'),{type:'line',data:{labels:stats.map(m=>m.month),datasets:[{label:'Production',data:stats.map(m=>m.totalUnits),borderColor:'#1e3a8a',backgroundColor:'rgba(30,58,138,0.1)',fill:true,tension:0.3,pointRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'#e2e8f0'}},x:{grid:{display:false}}}}});
+}
+
+// ================================================================
+// LINE-WISE
+// ================================================================
+function loadLineWiseData(){
+    const m=document.getElementById('reportLineMonth').value;
+    if(!m)return;
+    const data=JSON.parse(localStorage.getItem('monthlyData_'+m)||'[]');
+    const tb=document.getElementById('linewiseTableBody');tb.innerHTML='';
+    if(data.length===0){tb.innerHTML='<tr><td colspan="8" style="text-align:center;padding:15px;color:#64748b;">No data</td></tr>';document.getElementById('lineStats').innerHTML='<div style="text-align:center;padding:20px;color:#64748b;grid-column:1/-1;">No data</div>';return;}
+    let l1t=0,l2t=0;
+    data.forEach(d=>{
+        const l1A=(d.pressL1A||0)*20;const l1B=(d.pressL1B||0)*20;
+        const l2A=(d.pressL2A||0)*30;const l2B=(d.pressL2B||0)*30;
+        const l1D=l1A+l1B,l2D=l2A+l2B;
+        l1t+=l1D;l2t+=l2D;
+        const tr=document.createElement('tr');
+        tr.innerHTML=`<td>${d.date.substring(8)}</td><td>${l1A}</td><td>${l1B}</td><td style="font-weight:700;color:#3b82f6;">${l1D}</td><td>${l2A}</td><td>${l2B}</td><td style="font-weight:700;color:#f59e0b;">${l2D}</td><td style="font-weight:700;">${l1D+l2D}</td>`;
+        tb.appendChild(tr);
+    });
+    const g=l1t+l2t;
+    document.getElementById('lineStats').innerHTML=`
+        <div class="stat-card"><div class="stat-label">Line 1 Sheets</div><div class="stat-value" style="color:#3b82f6;">${l1t.toFixed(0)}</div></div>
+        <div class="stat-card"><div class="stat-label">Line 2 Sheets</div><div class="stat-value" style="color:#f59e0b;">${l2t.toFixed(0)}</div></div>
+        <div class="stat-card"><div class="stat-label">Grand Total</div><div class="stat-value">${g.toFixed(0)}</div></div>
+        <div class="stat-card"><div class="stat-label">Line 1 Share</div><div class="stat-value">${g>0?((l1t/g)*100).toFixed(1):0}%</div></div>
+        <div class="stat-card"><div class="stat-label">Line 2 Share</div><div class="stat-value">${g>0?((l2t/g)*100).toFixed(1):0}%</div></div>
+        <div class="stat-card"><div class="stat-label">Days</div><div class="stat-value">${data.length}</div></div>`;
+    if(chartLinewise)chartLinewise.destroy();
+    chartLinewise=new Chart(document.getElementById('chartCanvasLinewise'),{type:'bar',data:{labels:data.map(d=>d.date.substring(8)),datasets:[{label:'Line 1',data:data.map(d=>(d.pressL1A||0)*20+(d.pressL1B||0)*20),backgroundColor:'#3b82f6',borderRadius:4},{label:'Line 2',data:data.map(d=>(d.pressL2A||0)*30+(d.pressL2B||0)*30),backgroundColor:'#f59e0b',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'top'}},scales:{y:{beginAtZero:true,grid:{color:'#e2e8f0'}},x:{grid:{display:false}}}}});
+}
+
+// ================================================================
+// EDIT & DELETE
+// ================================================================
+function editLastEntry(){
+    const last=JSON.parse(localStorage.getItem('lastSavedData')||'null');
+    if(!last){showToast("No saved data.","warning");return;}
+    document.getElementById('reportDate').value=last.date;
+    document.getElementById('shiftAPressL1').value=last.pressL1A||'';
+    document.getElementById('shiftAPressL2').value=last.pressL2A||'';
+    document.getElementById('shiftBPressL1').value=last.pressL1B||'';
+    document.getElementById('shiftBPressL2').value=last.pressL2B||'';
+    sections.forEach((_,i)=>{
+        if(i===OLD_PRESS_INDEX)return;
+        ['shiftA_prev_','shiftA_curr_','shiftA_mult_','shiftB_prev_','shiftB_curr_','shiftB_mult_'].forEach(k=>{
+            const el=document.getElementById(k+i);
+            if(el&&last.rawData?.[k+i]!==undefined)el.value=last.rawData[k+i];
+        });
+    });
+    if(last.wapdaPrev)document.getElementById('wapdaPrev').value=last.wapdaPrev;
+    calculatePressSheets('shiftA');calculatePressSheets('shiftB');
+    calculateShift('shiftA');calculateShift('shiftB');
+    showToast("Loaded for editing.","info");
+}
+function promptDelete(){document.getElementById('pinModal').style.display='flex';document.getElementById('deletePin').value='';}
+function closePinModal(){document.getElementById('pinModal').style.display='none';}
+function confirmDelete(){
+    const pin=document.getElementById('deletePin').value;
+    if(pin===DELETE_PIN){
+        const last=JSON.parse(localStorage.getItem('lastSavedData')||'null');
+        if(!last){showToast("No data.","warning");closePinModal();return;}
+        const mk=last.date.substring(0,7);
+        let md=JSON.parse(localStorage.getItem('monthlyData_'+mk)||'[]');
+        md=md.filter(d=>d.date!==last.date);
+        localStorage.setItem('monthlyData_'+mk,JSON.stringify(md));
+        localStorage.removeItem('lastSavedData');
+        if(firebaseReady&&db&&navigator.onLine){
+            try{const{doc,deleteDoc}=window.firestore;deleteDoc(doc(db,"reports",last.date));}catch(e){}
+        }
+        showToast("Deleted.","success");closePinModal();loadMonthlyData();
+    }else showToast("Wrong PIN.","error");
+}
+function loadSavedData(){
+    sections.forEach((_,i)=>{
+        if(i===OLD_PRESS_INDEX)return;
+        const a=localStorage.getItem('shiftA_prev_'+i);if(a)document.getElementById('shiftA_prev_'+i).value=a;
+        const b=localStorage.getItem('shiftB_prev_'+i);if(b)document.getElementById('shiftB_prev_'+i).value=b;
+        const ma=localStorage.getItem('shiftA_mult_'+i);if(ma&&document.getElementById('shiftA_mult_'+i))document.getElementById('shiftA_mult_'+i).value=ma;
+        const mb=localStorage.getItem('shiftB_mult_'+i);if(mb&&document.getElementById('shiftB_mult_'+i))document.getElementById('shiftB_mult_'+i).value=mb;
+    });
+    const wp=localStorage.getItem('wapdaPrev');if(wp)document.getElementById('wapdaPrev').value=wp;
+    calculateShift('shiftA');calculateShift('shiftB');
+}
+function promptClear(){
+    showConfirm("Clear All Data?","Yeh saara current daily data clear ho jayega. Monthly history safe rahegi.",()=>{
+        sections.forEach((_,i)=>{
+            localStorage.removeItem('shiftA_prev_'+i);
+            localStorage.removeItem('shiftB_prev_'+i);
+            localStorage.removeItem('shiftA_mult_'+i);
+            localStorage.removeItem('shiftB_mult_'+i);
+        });
+        localStorage.removeItem('wapdaPrev');
+        document.querySelectorAll('input[type="number"]').forEach(inp=>{if(!inp.readOnly)inp.value='';});
+        document.querySelectorAll('.units').forEach(inp=>inp.value='0');
+        ['shiftATotalUnits','shiftBTotalUnits','shiftASheet','shiftBSheet','shiftACBM','shiftBCBM','shiftAUSheet','shiftBUSheet','shiftAUCBM','shiftBUCBM','wapdaTotal'].forEach(id=>document.getElementById(id).value='0');
+        document.getElementById('cbValue').innerText='0.00';
+        updateExtractDetails();calculateCB();showToast("Cleared.","info");
+    });
+}
+
+function copyMonthlyForWhatsApp(){
+    const m=document.getElementById('reportMonth').value;
+    if(!m){showToast("Select month first.","warning");return;}
+    const d=JSON.parse(localStorage.getItem('monthlyData_'+m)||'[]');
+    if(d.length===0){showToast("No data.","warning");return;}
+    const tu=d.reduce((s,x)=>s+x.totalUnits,0);
+    const ts=d.reduce((s,x)=>s+x.sheet,0);
+    const tc=d.reduce((s,x)=>s+x.cbm,0);
+    let t=`*KASHMIR WOOD INDUSTRY*\n*Monthly Report*\nMonth: ${m}\n-------------------------\nTotal Units: ${tu.toFixed(0)}\nTotal Sheet: ${ts.toFixed(0)}\nTotal CBM: ${tc.toFixed(1)}\n`;
+    navigator.clipboard.writeText(t).then(()=>showToast("Copied!","success"));
+}
+
+// ================================================================
+// INIT
+// ================================================================
+window.onload=function(){
+    if(!checkSession())console.log("🔐 PIN required");
+    updateNetworkStatus();
+};
+window.addEventListener('resize',()=>{});
+setInterval(()=>{
+    try{
+        if(!appInitialized)return;
+        const draft={};
+        sections.forEach((_,i)=>{
+            if(i===OLD_PRESS_INDEX)return;
+            draft['shiftA_prev_'+i]=document.getElementById('shiftA_prev_'+i)?.value||"";
+            draft['shiftA_curr_'+i]=document.getElementById('shiftA_curr_'+i)?.value||"";
+            draft['shiftB_prev_'+i]=document.getElementById('shiftB_prev_'+i)?.value||"";
+            draft['shiftB_curr_'+i]=document.getElementById('shiftB_curr_'+i)?.value||"";
+        });
+        localStorage.setItem('draftData',JSON.stringify(draft));
+    }catch(e){}
+},30000);
+</script>
+</body>
+</html>
