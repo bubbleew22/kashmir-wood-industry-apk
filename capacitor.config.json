@@ -1,0 +1,9 @@
+{
+  "appId": "com.kashmir.woodindustry",
+  "appName": "Kashmir Wood Industry",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  }
+}

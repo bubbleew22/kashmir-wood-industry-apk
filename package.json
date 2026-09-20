@@ -1,0 +1,14 @@
+{
+  "name": "kashmir-wood-industry",
+  "version": "1.0.0",
+  "description": "Kashmir Wood Industry Production Report",
+  "private": true,
+  "scripts": {
+    "build": "echo Building..."
+  },
+  "dependencies": {
+    "@capacitor/android": "^5.7.0",
+    "@capacitor/cli": "^5.7.0",
+    "@capacitor/core": "^5.7.0"
+  }
+}
