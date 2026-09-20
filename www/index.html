@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Kashmir Wood Industry - Production Report</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -10,7 +10,7 @@
 :root{--primary:#1e3a8a;--primary-light:#eff6ff;--secondary:#475569;--bg:#eef2f6;--card-bg:#fff;--text:#1e293b;--border:#cbd5e1;--accent:#059669;--danger:#dc2626;--warning:#d97706;--up:#16a34a;--down:#dc2626;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);padding:10px;font-size:13px;-webkit-font-smoothing:antialiased;}
-.container{max-width:1100px;margin:auto;background:var(--card-bg);padding:0 0 15px 0;border-radius:14px;box-shadow:0 10px 25px -5px rgba(0,0,0,0.1);overflow:hidden;border:1px solid rgba(255,255,255,0.5);}
+.container{max-width:1100px;margin:auto;background:var(--card-bg);padding:0 0 15px 0;border-radius:14px;box-shadow:0 10px 25px -5px rgba(0,0,0,0.1);overflow:hidden;}
 .toast-container{position:fixed;top:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none;}
 .toast{padding:12px 18px;border-radius:8px;color:#fff;font-weight:600;font-size:13px;box-shadow:0 4px 12px rgba(0,0,0,0.15);animation:slideIn .3s ease-out;pointer-events:auto;max-width:350px;display:flex;align-items:center;gap:8px;}
 .toast.success{background:linear-gradient(135deg,#059669,#10b981);}
@@ -27,19 +27,17 @@ body{font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:var(--b
 .validation-icon.valid{color:var(--up);}
 .confirm-modal{display:none;position:fixed;z-index:9999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.5);justify-content:center;align-items:center;}
 .confirm-modal.active{display:flex;}
-.confirm-content{background:#fff;padding:25px;border-radius:12px;width:90%;max-width:400px;text-align:center;box-shadow:0 20px 40px rgba(0,0,0,.3);}
+.confirm-content{background:#fff;padding:25px;border-radius:12px;width:90%;max-width:400px;text-align:center;}
 .confirm-content h3{margin-bottom:10px;color:var(--primary);}
 .confirm-content p{margin-bottom:20px;color:#64748b;font-size:13px;line-height:1.5;white-space:pre-line;}
 .confirm-buttons{display:flex;gap:10px;justify-content:center;}
 /* LOGIN */
 .login-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 50%,#1e40af 100%);z-index:99999;display:flex;justify-content:center;align-items:center;padding:20px;}
-.login-box{background:#fff;padding:30px 25px;border-radius:16px;width:100%;max-width:380px;box-shadow:0 20px 50px rgba(0,0,0,.4);text-align:center;animation:loginSlideIn .4s ease-out;}
+.login-box{background:#fff;padding:30px 25px;border-radius:16px;width:100%;max-width:380px;text-align:center;animation:loginSlideIn .4s ease-out;}
 @keyframes loginSlideIn{from{transform:translateY(-30px);opacity:0;}to{transform:translateY(0);opacity:1;}}
 .login-logo{font-size:40px;margin-bottom:10px;}
 .login-title{font-size:18px;font-weight:800;color:var(--primary);margin-bottom:3px;text-transform:uppercase;}
 .login-subtitle{font-size:11px;color:var(--secondary);margin-bottom:25px;text-transform:uppercase;letter-spacing:1px;}
-.offline-badge{display:inline-block;background:#fef3c7;color:#92400e;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:700;margin-bottom:10px;}
-.offline-badge.online{background:#ecfdf5;color:#065f46;}
 .pin-display{display:flex;justify-content:center;gap:12px;margin-bottom:20px;}
 .pin-dot{width:18px;height:18px;border-radius:50%;background:#e2e8f0;border:2px solid var(--border);transition:all .2s;}
 .pin-dot.filled{background:var(--primary);border-color:var(--primary);transform:scale(1.15);}
@@ -47,28 +45,22 @@ body{font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:var(--b
 @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
 .pin-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:15px;}
 .pin-key{padding:16px;font-size:20px;font-weight:700;background:#f1f5f9;border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .15s;color:var(--primary);user-select:none;}
-.pin-key:hover{background:var(--primary-light);border-color:var(--primary);}
+.pin-key:hover{background:var(--primary-light);}
 .pin-key:active{transform:scale(.95);background:var(--primary);color:#fff;}
-.pin-key.clear{background:#fef2f2;color:var(--danger);border-color:#fecaca;}
-.pin-key.clear:hover{background:var(--danger);color:#fff;}
-.pin-key.enter{background:#ecfdf5;color:var(--accent);border-color:#a7f3d0;}
-.pin-key.enter:hover{background:var(--accent);color:#fff;}
+.pin-key.clear{background:#fef2f2;color:var(--danger);}
+.pin-key.enter{background:#ecfdf5;color:var(--accent);}
 .login-error{color:var(--danger);font-size:12px;font-weight:600;min-height:18px;margin-top:8px;}
 .login-hint{font-size:10px;color:#94a3b8;margin-top:12px;}
-.forgot-pin-btn{background:transparent;border:none;color:#1e3a8a;font-size:12px;font-weight:700;cursor:pointer;margin-top:12px;padding:6px 12px;text-decoration:underline;transition:color .2s;}
-.forgot-pin-btn:hover{color:#2563eb;}
-/* FORGOT MODAL */
+.forgot-pin-btn{background:transparent;border:none;color:#1e3a8a;font-size:12px;font-weight:700;cursor:pointer;margin-top:12px;padding:6px 12px;text-decoration:underline;}
 .forgot-modal{display:none;position:fixed;z-index:100000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.7);justify-content:center;align-items:center;padding:20px;}
 .forgot-modal.active{display:flex;}
-.forgot-content{background:#fff;padding:25px;border-radius:14px;width:100%;max-width:420px;box-shadow:0 20px 50px rgba(0,0,0,.4);animation:scaleIn .3s ease-out;}
-@keyframes scaleIn{from{transform:scale(.9);opacity:0;}to{transform:scale(1);opacity:1;}}
+.forgot-content{background:#fff;padding:25px;border-radius:14px;width:100%;max-width:420px;}
 .forgot-content h3{color:#1e3a8a;margin-bottom:8px;font-size:18px;text-align:center;}
 .forgot-content .subtitle{text-align:center;color:#64748b;font-size:12px;margin-bottom:20px;}
 .forgot-content .form-group{margin-bottom:15px;}
 .forgot-content label{display:block;font-size:11px;font-weight:700;color:#475569;text-transform:uppercase;margin-bottom:5px;}
-.forgot-content select,.forgot-content input{width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:6px;font-size:13px;outline:none;transition:border .2s;}
-.forgot-content select:focus,.forgot-content input:focus{border-color:#1e3a8a;}
-.forgot-content .forgot-actions{display:flex;gap:10px;justify-content:center;margin-top:20px;}
+.forgot-content select,.forgot-content input{width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:6px;font-size:13px;outline:none;}
+.forgot-actions{display:flex;gap:10px;justify-content:center;margin-top:20px;}
 .forgot-msg{font-size:12px;font-weight:600;text-align:center;min-height:18px;margin-top:8px;}
 .forgot-msg.success{color:#059669;}
 .forgot-msg.error{color:#dc2626;}
@@ -76,33 +68,30 @@ body{font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:var(--b
 .new-pin-section{display:none;margin-top:15px;padding-top:15px;border-top:1px dashed #cbd5e1;}
 .new-pin-section.active{display:block;}
 /* HEADER */
-.header{padding:15px 20px 12px;background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 50%,#1e40af 100%);color:#fff;box-shadow:0 4px 0 #0f2557;border-bottom:3px solid #0f2557;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.header{padding:15px 20px 12px;background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 50%,#1e40af 100%);color:#fff;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
 .header-left{display:flex;flex-direction:column;gap:2px;}
-.company-name{font-size:22px;font-weight:900;color:#fff;letter-spacing:1.5px;text-transform:uppercase;text-shadow:1px 1px 0 #0f2557;line-height:1.1;}
+.company-name{font-size:22px;font-weight:900;color:#fff;letter-spacing:1.5px;text-transform:uppercase;text-shadow:1px 1px 0 #0f2557;}
 .report-title{font-size:10px;font-weight:600;color:#bfdbfe;text-transform:uppercase;letter-spacing:2px;}
 .header-right{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.12);padding:6px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.2);}
 .header-right label{font-size:10px;font-weight:700;color:#bfdbfe;text-transform:uppercase;}
-.header-right input[type="date"]{padding:4px 8px;border:1px solid rgba(255,255,255,.3);border-radius:4px;font-size:12px;background:rgba(255,255,255,.9);color:#1e3a8a;font-weight:700;outline:none;cursor:pointer;}
-/* TABS */
+.header-right input[type="date"]{padding:4px 8px;border:1px solid rgba(255,255,255,.3);border-radius:4px;font-size:12px;background:rgba(255,255,255,.9);color:#1e3a8a;font-weight:700;outline:none;}
 .tabs{display:flex;gap:5px;margin:12px 20px 15px;border-bottom:2px solid var(--border);overflow-x:auto;flex-wrap:nowrap;}
-.tab{padding:8px 16px;background:transparent;border:none;font-size:12px;font-weight:700;color:var(--secondary);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;border-radius:6px 6px 0 0;white-space:nowrap;}
+.tab{padding:8px 16px;background:transparent;border:none;font-size:12px;font-weight:700;color:var(--secondary);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;}
 .tab.active{color:var(--primary);border-bottom-color:var(--primary);background:var(--primary-light);}
 .tab-content{display:none;padding:0 15px;}
 .tab-content.active{display:block;}
-.section-title{background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff;padding:8px 12px;border-radius:6px;margin-top:15px;margin-bottom:8px;font-weight:700;font-size:13px;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;box-shadow:0 3px 0 #0f2557;}
-.section-title.green{background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 3px 0 #064e3b;}
-.section-title.orange{background:linear-gradient(135deg,#d97706,#f59e0b);box-shadow:0 3px 0 #92400e;}
-.section-title.purple{background:linear-gradient(135deg,#7c3aed,#a78bfa);box-shadow:0 3px 0 #4c1d95;}
+.section-title{background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff;padding:8px 12px;border-radius:6px;margin-top:15px;margin-bottom:8px;font-weight:700;font-size:13px;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.section-title.green{background:linear-gradient(135deg,#059669,#10b981);}
+.section-title.orange{background:linear-gradient(135deg,#d97706,#f59e0b);}
+.section-title.purple{background:linear-gradient(135deg,#7c3aed,#a78bfa);}
 .table-responsive{width:100%;overflow-x:auto;margin-bottom:10px;border-radius:6px;border:1px solid var(--border);}
 table{width:100%;border-collapse:collapse;min-width:480px;}
 th,td{border:1px solid var(--border);padding:6px 8px;text-align:left;}
 th{background:#f1f5f9;color:var(--secondary);font-weight:700;font-size:10px;text-transform:uppercase;}
 tr:nth-child(even){background:#fcfcfc;}
 table input[type="number"]{width:100%;padding:6px;border:1px solid #e2e8f0;border-radius:4px;font-size:12px;outline:none;}
-table input[type="number"]:focus{border-color:var(--primary);background:var(--primary-light);}
 .readonly-input{background:#f1f5f9!important;font-weight:700;color:var(--primary);}
 .total-highlight{background:var(--primary-light)!important;font-weight:700;color:var(--primary);}
-.auto-calc-input{background:#fef3c7!important;font-weight:700;color:#92400e;border:1px dashed #d97706!important;}
 .summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-top:8px;margin-bottom:15px;}
 .summary-item{background:#f8fafc;border:1px solid var(--border);border-radius:6px;padding:8px;display:flex;flex-direction:column;gap:3px;}
 .summary-item label{font-size:9px;font-weight:700;color:var(--secondary);text-transform:uppercase;text-align:center;}
@@ -114,9 +103,7 @@ table input[type="number"]:focus{border-color:var(--primary);background:var(--pr
 .cb-box h3{color:var(--secondary);margin-bottom:3px;font-size:11px;text-transform:uppercase;font-weight:700;}
 .cb-box .cb-value{font-size:20px;font-weight:800;color:var(--primary);}
 .btn-container{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:15px;margin-bottom:10px;}
-.btn{padding:9px 14px;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700;transition:all .2s;display:flex;align-items:center;gap:5px;box-shadow:0 3px 0 rgba(0,0,0,.2);color:#fff;}
-.btn:hover{transform:translateY(-1px);}
-.btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.2);}
+.btn{padding:9px 14px;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700;display:flex;align-items:center;gap:5px;color:#fff;}
 .btn-print{background:#475569;}
 .btn-whatsapp{background:#25D366;}
 .btn-save{background:var(--accent);}
@@ -127,15 +114,15 @@ table input[type="number"]:focus{border-color:var(--primary);background:var(--pr
 .btn-sync{background:#0ea5e9;}
 .press-section{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
 .press-box{background:linear-gradient(135deg,#f8fafc,#e2e8f0);border:1px solid var(--border);border-radius:8px;padding:8px;}
-.press-box h4{font-size:11px;color:var(--primary);margin-bottom:6px;text-transform:uppercase;display:flex;align-items:center;gap:5px;border-bottom:1px solid var(--border);padding-bottom:5px;}
+.press-box h4{font-size:11px;color:var(--primary);margin-bottom:6px;text-transform:uppercase;border-bottom:1px solid var(--border);padding-bottom:5px;}
 .press-row{display:flex;align-items:center;gap:5px;margin-bottom:5px;flex-wrap:wrap;}
 .press-row label{font-size:11px;font-weight:600;color:var(--secondary);}
-.press-row select{padding:4px;border:1px solid #e2e8f0;border-radius:4px;font-size:11px;font-weight:700;background:#fff;color:var(--primary);outline:none;width:70px;}
+.press-row select{padding:4px;border:1px solid #e2e8f0;border-radius:4px;font-size:11px;font-weight:700;background:#fff;color:var(--primary);width:70px;}
 .press-row input{flex:1;padding:6px;border:1px solid #e2e8f0;border-radius:4px;font-size:12px;text-align:center;min-width:50px;}
 .press-row .thickness-input{width:55px;flex:none;}
 .press-row .press-output{font-weight:700;color:var(--accent);width:50px;text-align:center;background:#ecfdf5;border-radius:4px;padding:5px;font-size:11px;}
 .stat-cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:15px;}
-.stat-card{background:linear-gradient(135deg,#fff 0%,#f1f5f9 100%);border-radius:8px;padding:12px;text-align:center;border:1px solid var(--border);box-shadow:0 2px 4px rgba(0,0,0,.05);position:relative;overflow:hidden;}
+.stat-card{background:linear-gradient(135deg,#fff 0%,#f1f5f9 100%);border-radius:8px;padding:12px;text-align:center;border:1px solid var(--border);position:relative;overflow:hidden;}
 .stat-card::before{content:"";position:absolute;top:0;left:0;width:4px;height:100%;}
 .stat-card.units::before{background:#1e3a8a;}
 .stat-card.sheets::before{background:#059669;}
@@ -166,14 +153,33 @@ table input[type="number"]:focus{border-color:var(--primary);background:var(--pr
 .setting-card .form-row{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;}
 .setting-card label{font-size:11px;font-weight:700;color:var(--secondary);text-transform:uppercase;}
 .setting-card input,.setting-card select{padding:8px;border:1px solid var(--border);border-radius:6px;font-size:13px;outline:none;}
-.setting-card input:focus,.setting-card select:focus{border-color:var(--primary);}
 .info-box{background:#eff6ff;border-left:4px solid #1e3a8a;padding:10px 12px;border-radius:4px;font-size:11px;color:#1e3a8a;margin-bottom:10px;line-height:1.5;}
 .status-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:700;}
 .status-badge.online{background:#ecfdf5;color:#065f46;}
 .status-badge.offline{background:#fef3c7;color:#92400e;}
-@media print{body *{visibility:hidden;}#extractSection,#extractSection *{visibility:visible;}#extractSection{position:absolute;left:0;top:0;width:100%;}.no-print{display:none!important;}@page{margin:.5cm;}}
+/* IMAGE PREVIEW MODAL */
+.img-preview-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.95);z-index:999999;display:flex;flex-direction:column;padding:15px;box-sizing:border-box;}
+.img-preview-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;color:#fff;}
+.img-preview-close{background:#dc2626;border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:18px;font-weight:700;cursor:pointer;}
+.img-preview-body{flex:1;overflow:auto;display:flex;justify-content:center;align-items:flex-start;background:#1e293b;border-radius:8px;padding:10px;}
+.img-preview-body img{max-width:100%;height:auto;border-radius:4px;}
+.img-preview-hint{margin-top:12px;padding:12px;background:rgba(255,255,255,.1);border-radius:8px;color:#fbbf24;font-size:12px;text-align:center;font-weight:600;}
+.img-preview-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;justify-content:center;}
+.img-btn{color:#fff;border:none;padding:12px 20px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;flex:1;min-width:110px;}
 @media(max-width:768px){.charts-grid-2{grid-template-columns:1fr;}}
-@media(max-width:600px){.container{border-radius:0;}.header{flex-direction:column;align-items:flex-start;padding:12px;}.header-right{width:100%;justify-content:center;}.company-name{font-size:18px;}.summary-grid{grid-template-columns:repeat(2,1fr);}.press-section{grid-template-columns:1fr;}.btn{padding:8px 12px;font-size:11px;}.tab-content{padding:0 8px;}.chart-container{height:250px;}.stat-cards-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){
+    .container{border-radius:0;}
+    .header{flex-direction:column;align-items:flex-start;padding:12px;}
+    .header-right{width:100%;justify-content:center;}
+    .company-name{font-size:18px;}
+    .summary-grid{grid-template-columns:repeat(2,1fr);}
+    .press-section{grid-template-columns:1fr;}
+    .btn{padding:8px 12px;font-size:11px;}
+    .tab-content{padding:0 8px;}
+    .chart-container{height:250px;}
+    .stat-cards-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media print{body *{visibility:hidden;}#extractSection,#extractSection *{visibility:visible;}#extractSection{position:absolute;left:0;top:0;width:100%;}}
 </style>
 </head>
 <body>
@@ -184,7 +190,6 @@ table input[type="number"]:focus{border-color:var(--primary);background:var(--pr
         <div class="login-logo">🔐</div>
         <div class="login-title">Kashmir Wood Industry</div>
         <div class="login-subtitle">Enter Security PIN</div>
-        <div class="offline-badge" id="networkStatus">🌐 Checking...</div>
         <div class="pin-display">
             <div class="pin-dot"></div>
             <div class="pin-dot"></div>
@@ -207,7 +212,6 @@ table input[type="number"]:focus{border-color:var(--primary);background:var(--pr
         </div>
         <div class="login-error" id="loginError"></div>
         <button class="forgot-pin-btn" onclick="openForgotPinModal()">🔑 Forgot PIN?</button>
-        <div class="login-hint">Only authorized personnel can access</div>
     </div>
 </div>
 
@@ -219,7 +223,7 @@ table input[type="number"]:focus{border-color:var(--primary);background:var(--pr
         <div class="form-group">
             <label>Security Question</label>
             <select id="forgotQuestion">
-                <option value="">Select your question...</option>
+                <option value="">Select...</option>
                 <option value="Your Birth City">Your Birth City</option>
                 <option value="Your Mother's Name">Your Mother's Name</option>
                 <option value="Your Pet Name">Your Pet Name</option>
@@ -227,20 +231,11 @@ table input[type="number"]:focus{border-color:var(--primary);background:var(--pr
                 <option value="Your Favorite Color">Your Favorite Color</option>
             </select>
         </div>
-        <div class="form-group">
-            <label>Your Answer</label>
-            <input type="text" id="forgotAnswer" placeholder="Enter your answer">
-        </div>
+        <div class="form-group"><label>Your Answer</label><input type="text" id="forgotAnswer" placeholder="Enter answer"></div>
         <div class="forgot-msg" id="forgotMsg"></div>
         <div class="new-pin-section" id="newPinSection">
-            <div class="form-group">
-                <label>New PIN (4 digits)</label>
-                <input type="password" id="forgotNewPin" maxlength="4" placeholder="****">
-            </div>
-            <div class="form-group">
-                <label>Confirm New PIN</label>
-                <input type="password" id="forgotConfirmPin" maxlength="4" placeholder="****">
-            </div>
+            <div class="form-group"><label>New PIN (4 digits)</label><input type="password" id="forgotNewPin" maxlength="4" placeholder="****"></div>
+            <div class="form-group"><label>Confirm New PIN</label><input type="password" id="forgotConfirmPin" maxlength="4" placeholder="****"></div>
         </div>
         <div class="forgot-actions">
             <button class="btn btn-save" onclick="handleForgotPin()" id="forgotActionBtn">Verify</button>
@@ -257,7 +252,7 @@ table input[type="number"]:focus{border-color:var(--primary);background:var(--pr
         <h3 id="confirmTitle">Are you sure?</h3>
         <p id="confirmMessage">This action cannot be undone.</p>
         <div class="confirm-buttons">
-            <button class="btn btn-save" onclick="confirmYes()">Yes, Confirm</button>
+            <button class="btn btn-save" onclick="confirmYes()">Yes</button>
             <button class="btn btn-clear" onclick="confirmNo()">Cancel</button>
         </div>
     </div>
@@ -287,7 +282,7 @@ table input[type="number"]:focus{border-color:var(--primary);background:var(--pr
 
     <!-- DAILY -->
     <div id="dailyTab" class="tab-content active">
-        <div class="section-title"><span>Shift A (Day) <span id="shiftAValidation" class="validation-icon"></span></span></div>
+        <div class="section-title"><span>Shift A (Day)</span></div>
         <div class="table-responsive">
             <table><thead><tr><th>Section</th><th>Prev Reading</th><th>Curr Reading</th><th>Ratio</th><th>Units</th></tr></thead><tbody id="shiftATable"></tbody></table>
         </div>
@@ -323,7 +318,7 @@ table input[type="number"]:focus{border-color:var(--primary);background:var(--pr
             <div class="summary-item"><label>U/CBM</label><input type="number" id="shiftAUCBM" class="readonly-input" readonly value="0"></div>
         </div>
 
-        <div class="section-title"><span>Shift B (Night) <span id="shiftBValidation" class="validation-icon"></span></span></div>
+        <div class="section-title"><span>Shift B (Night)</span></div>
         <div class="table-responsive">
             <table><thead><tr><th>Section</th><th>Prev Reading</th><th>Curr Reading</th><th>Ratio</th><th>Units</th></tr></thead><tbody id="shiftBTable"></tbody></table>
         </div>
@@ -384,7 +379,7 @@ table input[type="number"]:focus{border-color:var(--primary);background:var(--pr
         <div class="btn-container no-print">
             <button class="btn btn-save" onclick="saveData()">💾 Save & Next</button>
             <button class="btn btn-image" onclick="saveAsImage('daily')">📷 JPG/PNG</button>
-            <button class="btn btn-print" onclick="printReport()">🖨️ PDF</button>
+            <button class="btn btn-print" onclick="window.print()">🖨️ PDF</button>
             <button class="btn btn-whatsapp" onclick="copyForWhatsApp()">📲 WhatsApp</button>
             <button class="btn btn-sync" onclick="syncToFirebase()">☁️ Sync</button>
             <button class="btn btn-edit" onclick="editLastEntry()">✏️ Edit</button>
@@ -403,21 +398,15 @@ table input[type="number"]:focus{border-color:var(--primary);background:var(--pr
         </div>
         <div class="section-title">📊 Monthly Total Units Consumption</div>
         <div class="stat-cards-grid" id="monthStats"></div>
-        <div class="section-title">📈 Units Trend (Daily)</div>
+        <div class="section-title">📈 Units Trend</div>
         <div class="chart-container"><canvas id="chartUnits"></canvas></div>
         <div class="charts-grid-2">
-            <div>
-                <div class="section-title green">📦 Sheets Trend</div>
-                <div class="chart-container" style="height:280px;"><canvas id="chartSheets"></canvas></div>
-            </div>
-            <div>
-                <div class="section-title orange">📐 CBM Trend</div>
-                <div class="chart-container" style="height:280px;"><canvas id="chartCBM"></canvas></div>
-            </div>
+            <div><div class="section-title green">📦 Sheets Trend</div><div class="chart-container" style="height:280px;"><canvas id="chartSheets"></canvas></div></div>
+            <div><div class="section-title orange">📐 CBM Trend</div><div class="chart-container" style="height:280px;"><canvas id="chartCBM"></canvas></div></div>
         </div>
-        <div class="section-title purple">📊 Averages Trend (U/Sheet & U/CBM)</div>
+        <div class="section-title purple">📊 Averages Trend</div>
         <div class="chart-container"><canvas id="chartAvg"></canvas></div>
-        <div class="section-title">📋 Monthly Data (Day by Day)</div>
+        <div class="section-title">📋 Monthly Data</div>
         <div class="table-responsive">
             <table><thead><tr><th>Date</th><th>Shift A</th><th>Shift B</th><th>Total Units</th><th>Sheet</th><th>CBM</th><th>U/Sheet</th><th>U/CBM</th><th>Wapda</th><th>CB</th><th>% Change</th></tr></thead><tbody id="monthlyTableBody"></tbody></table>
         </div>
@@ -458,7 +447,7 @@ table input[type="number"]:focus{border-color:var(--primary);background:var(--pr
             </div>
         </div>
         <div class="stat-cards-grid" id="yearStats"></div>
-        <div class="section-title">Yearly Trend (Month-wise)</div>
+        <div class="section-title">Yearly Trend</div>
         <div class="chart-container"><canvas id="chartCanvasYearly"></canvas></div>
         <div class="section-title">Yearly Data</div>
         <div class="table-responsive">
@@ -481,9 +470,9 @@ table input[type="number"]:focus{border-color:var(--primary);background:var(--pr
         <div class="stat-cards-grid" id="lineStats"></div>
         <div class="section-title">Line 1 vs Line 2</div>
         <div class="chart-container"><canvas id="chartCanvasLinewise"></canvas></div>
-        <div class="section-title">Line-wise Detailed Data</div>
+        <div class="section-title">Line-wise Data</div>
         <div class="table-responsive">
-            <table><thead><tr><th>Date</th><th>L1 Shift A</th><th>L1 Shift B</th><th>L1 Total</th><th>L2 Shift A</th><th>L2 Shift B</th><th>L2 Total</th><th>Grand Total</th></tr></thead><tbody id="linewiseTableBody"></tbody></table>
+            <table><thead><tr><th>Date</th><th>L1 A</th><th>L1 B</th><th>L1 Total</th><th>L2 A</th><th>L2 B</th><th>L2 Total</th><th>Grand</th></tr></thead><tbody id="linewiseTableBody"></tbody></table>
         </div>
         <div class="btn-container no-print">
             <button class="btn btn-image" onclick="saveAsImage('linewise')">📷 Image</button>
@@ -497,20 +486,17 @@ table input[type="number"]:focus{border-color:var(--primary);background:var(--pr
         <div class="settings-grid">
             <div class="setting-card">
                 <h3>🔐 Change PIN</h3>
-                <div class="info-box">PIN change karne ke liye purana PIN dalein. Naya PIN 4 digits ka hona chahiye.</div>
                 <div class="form-row"><label>Current PIN</label><input type="password" id="oldPin" maxlength="4" placeholder="****"></div>
-                <div class="form-row"><label>New PIN (4 digits)</label><input type="password" id="newPin" maxlength="4" placeholder="****"></div>
-                <div class="form-row"><label>Confirm New PIN</label><input type="password" id="confirmPin" maxlength="4" placeholder="****"></div>
+                <div class="form-row"><label>New PIN</label><input type="password" id="newPin" maxlength="4" placeholder="****"></div>
+                <div class="form-row"><label>Confirm PIN</label><input type="password" id="confirmPin" maxlength="4" placeholder="****"></div>
                 <button class="btn btn-save" onclick="changePin()">💾 Update PIN</button>
             </div>
-
             <div class="setting-card">
-                <h3>🔑 Security Question (Forgot PIN)</h3>
-                <div class="info-box">Ye question Forgot PIN recover karne ke liye use hoga. Zaroor set karein.</div>
+                <h3>🔑 Security Question</h3>
                 <div class="form-row">
-                    <label>Security Question</label>
+                    <label>Question</label>
                     <select id="settingsSecurityQ">
-                        <option value="">Select a question...</option>
+                        <option value="">Select...</option>
                         <option value="Your Birth City">Your Birth City</option>
                         <option value="Your Mother's Name">Your Mother's Name</option>
                         <option value="Your Pet Name">Your Pet Name</option>
@@ -518,46 +504,27 @@ table input[type="number"]:focus{border-color:var(--primary);background:var(--pr
                         <option value="Your Favorite Color">Your Favorite Color</option>
                     </select>
                 </div>
-                <div class="form-row"><label>Answer</label><input type="text" id="settingsSecurityA" placeholder="Your answer"></div>
-                <button class="btn btn-save" onclick="saveSecurityQuestion()">💾 Save Security Question</button>
+                <div class="form-row"><label>Answer</label><input type="text" id="settingsSecurityA" placeholder="Answer"></div>
+                <button class="btn btn-save" onclick="saveSecurityQuestion()">💾 Save</button>
             </div>
-
             <div class="setting-card">
-                <h3>☁️ Reset PIN from Cloud</h3>
-                <div class="info-box">Agar aap PIN bhool gaye hain toh cloud se reset karein.</div>
-                <button class="btn btn-sync" onclick="resetPinFromCloud()">☁️ Reset from Cloud</button>
-            </div>
-
-            <div class="setting-card">
-                <h3>📡 Network & Sync Status</h3>
+                <h3>📡 Network Status</h3>
                 <div style="margin-bottom:10px;">Status: <span class="status-badge" id="settingsNetworkBadge">Checking...</span></div>
                 <div style="margin-bottom:10px;">Firebase: <span class="status-badge" id="settingsFirebaseBadge">Checking...</span></div>
                 <div style="margin-bottom:10px;">Pending Sync: <strong id="settingsPendingCount">0</strong></div>
-                <button class="btn btn-sync" onclick="forceSyncAll()">☁️ Force Sync All</button>
+                <button class="btn btn-sync" onclick="forceSyncAll()">☁️ Force Sync</button>
             </div>
-
             <div class="setting-card">
-                <h3>🗑️ Delete Protection PIN</h3>
-                <div class="info-box">Delete button ke liye alag PIN. Current: <strong id="currentDeletePinDisplay">1234</strong></div>
-                <div class="form-row"><label>New Delete PIN (4 digits)</label><input type="password" id="newDeletePin" maxlength="4" placeholder="****"></div>
-                <button class="btn btn-delete" onclick="changeDeletePin()">🗑️ Update Delete PIN</button>
-            </div>
-
-            <div class="setting-card">
-                <h3>ℹ️ App Info</h3>
-                <div style="font-size:12px;line-height:1.8;color:#475569;">
-                    <div><strong>Version:</strong> 2.0</div>
-                    <div><strong>Developer:</strong> Yasir Khan</div>
-                    <div><strong>Offline Support:</strong> Yes ✅</div>
-                    <div><strong>Auto-Sync:</strong> Yes ✅</div>
-                    <div><strong>Data Storage:</strong> Local + Firebase</div>
-                </div>
+                <h3>🗑️ Delete PIN</h3>
+                <div class="info-box">Current: <strong id="currentDeletePinDisplay">1234</strong></div>
+                <div class="form-row"><label>New Delete PIN</label><input type="password" id="newDeletePin" maxlength="4" placeholder="****"></div>
+                <button class="btn btn-delete" onclick="changeDeletePin()">🗑️ Update</button>
             </div>
         </div>
     </div>
 
     <div class="footer">
-        <div class="footer-left">© Kashmir Wood Industry | Generated: <span id="footerDate"></span></div>
+        <div class="footer-left">© Kashmir Wood Industry | <span id="footerDate"></span></div>
         <div class="footer-right">
             <div class="signature">Yasir Khan</div>
             <div class="signature-label">Prepared By</div>
@@ -568,7 +535,6 @@ table input[type="number"]:focus{border-color:var(--primary);background:var(--pr
 <div id="pinModal" class="modal">
     <div class="modal-content">
         <h3>🔐 Delete Protection</h3>
-        <p style="margin-bottom:10px;color:#64748b;font-size:12px;">Enter PIN to delete</p>
         <input type="password" id="deletePin" maxlength="4" placeholder="****">
         <div class="modal-buttons">
             <button class="btn btn-delete" onclick="confirmDelete()">Delete</button>
@@ -586,6 +552,9 @@ let DELETE_PIN = localStorage.getItem('kwi_delete_pin') || "1234";
 const SESSION_HOURS = 8;
 const sections = ["NEW Defi and Dryer","NEW Defi LT","NEW Press and Forming (30 Op)","OLD Defi Motor","OLD Defi LT","OLD Press and Forming (20 Op)","Sanding","Sanding Blower","Main Reading"];
 const OLD_PRESS_INDEX = 5;
+
+// Flag: true means Extract table is showing last saved data (no recalculation)
+let showingSavedExtract = false;
 
 // ================================================================
 // TOAST / LOADING / CONFIRM
@@ -616,8 +585,6 @@ function confirmNo(){document.getElementById('confirmModal').classList.remove('a
 // ================================================================
 function updateNetworkStatus(){
     const online=navigator.onLine;
-    const b=document.getElementById('networkStatus');
-    if(b){b.className=online?'offline-badge online':'offline-badge';b.innerText=online?'🌐 Online':'📴 Offline';}
     const sb=document.getElementById('settingsNetworkBadge');
     if(sb){sb.className='status-badge '+(online?'online':'offline');sb.innerText=online?'🌐 Online':'📴 Offline';}
     if(online)setTimeout(autoSyncPending,2000);
@@ -635,8 +602,7 @@ const firebaseConfig={
     projectId:"electrical-log-fe4b7",
     storageBucket:"electrical-log-fe4b7.firebasestorage.app",
     messagingSenderId:"530439306427",
-    appId:"1:530439306427:web:ecc00cc60270c8a5297d9e",
-    measurementId:"G-GK1L3M9JQW"
+    appId:"1:530439306427:web:ecc00cc60270c8a5297d9e"
 };
 let firebaseReady=false;
 let db=null;
@@ -647,16 +613,14 @@ async function initFirebase(){
         const{getFirestore,doc,setDoc,getDoc,deleteDoc,enableIndexedDbPersistence}=await import("https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js");
         const app=initializeApp(firebaseConfig);
         db=getFirestore(app);
-        try{await enableIndexedDbPersistence(db);}catch(e){console.log("Offline:",e.code);}
+        try{await enableIndexedDbPersistence(db);}catch(e){}
         window.firestore={doc,setDoc,getDoc,deleteDoc};
         firebaseReady=true;
         const badge=document.getElementById('settingsFirebaseBadge');
         if(badge){badge.className='status-badge online';badge.innerText='✅ Connected';}
-        console.log("✅ Firebase initialized!");
     }catch(e){
-        console.warn("Firebase init failed:",e);
         const badge=document.getElementById('settingsFirebaseBadge');
-        if(badge){badge.className='status-badge offline';badge.innerText='📴 Offline Mode';}
+        if(badge){badge.className='status-badge offline';badge.innerText='📴 Offline';}
     }
 }
 initFirebase();
@@ -688,18 +652,18 @@ async function autoSyncPending(){
     if(dates.length===0)return;
     const{doc,setDoc}=window.firestore;
     for(const date of dates){
-        try{await setDoc(doc(db,"reports",date),p[date]);removePendingSync(date);}catch(e){console.warn("Sync failed:",date,e);}
+        try{await setDoc(doc(db,"reports",date),p[date]);removePendingSync(date);}catch(e){}
     }
     showToast("Pending items synced!","success");
 }
 async function forceSyncAll(){
     if(!firebaseReady){showToast("Firebase not ready","warning");return;}
-    if(!navigator.onLine){showToast("No internet connection","warning");return;}
+    if(!navigator.onLine){showToast("No internet","warning");return;}
     await autoSyncPending();
 }
 
 // ================================================================
-// LOGIN LOGIC
+// LOGIN
 // ================================================================
 let currentPin="";
 function enterPin(d){
@@ -720,10 +684,8 @@ function submitPin(){
     const err=document.getElementById('loginError');
     if(currentPin.length!==4){err.innerText="Enter 4-digit PIN";return;}
     if(currentPin===ACCESS_PIN){
-        showToast("Welcome!","success");
         const exp=Date.now()+(SESSION_HOURS*60*60*1000);
         sessionStorage.setItem('kwi_session',exp.toString());
-        sessionStorage.setItem('kwi_login_time',new Date().toISOString());
         document.getElementById('loginScreen').style.display='none';
         document.getElementById('reportContainer').style.display='block';
         initializeApp();
@@ -734,9 +696,8 @@ function submitPin(){
     }
 }
 function logout(){
-    showConfirm("Logout?","Kya aap logout karna chahte hain?",()=>{
+    showConfirm("Logout?","Logout karna chahte hain?",()=>{
         sessionStorage.removeItem('kwi_session');
-        sessionStorage.removeItem('kwi_login_time');
         location.reload();
     });
 }
@@ -746,7 +707,6 @@ async function checkSession(){
         document.getElementById('loginScreen').style.display='none';
         document.getElementById('reportContainer').style.display='block';
         initializeApp();
-        setTimeout(syncSecurityFromCloud,2000);
         return true;
     }
     return false;
@@ -757,7 +717,6 @@ document.addEventListener('keydown',e=>{
         if(e.key>='0'&&e.key<='9')enterPin(e.key);
         else if(e.key==='Enter')submitPin();
         else if(e.key==='Backspace'){currentPin=currentPin.slice(0,-1);updatePinDisplay();}
-        else if(e.key==='Escape')clearPin();
     }
 });
 
@@ -778,34 +737,23 @@ function openForgotPinModal(){
     forgotPinVerified=false;
 }
 function closeForgotPinModal(){document.getElementById('forgotModal').classList.remove('active');}
-
 async function handleForgotPin(){
     const msg=document.getElementById('forgotMsg');
     if(!forgotPinVerified){
         const q=document.getElementById('forgotQuestion').value;
         const a=document.getElementById('forgotAnswer').value.trim().toLowerCase();
-        if(!q||!a){msg.className='forgot-msg error';msg.innerText='Please select question and enter answer.';return;}
+        if(!q||!a){msg.className='forgot-msg error';msg.innerText='Select question and enter answer.';return;}
         const sq=localStorage.getItem('kwi_security_question');
         const sa=localStorage.getItem('kwi_security_answer');
         if(!sq||!sa){
             msg.className='forgot-msg info';
-            msg.innerText='No security question set. Please set new PIN.';
+            msg.innerText='No security question set. Set new PIN.';
             forgotPinVerified=true;
             document.getElementById('newPinSection').classList.add('active');
             document.getElementById('forgotActionBtn').innerText='Set New PIN';
             return;
         }
         if(q!==sq||a!==sa){msg.className='forgot-msg error';msg.innerText='❌ Incorrect answer.';return;}
-        if(firebaseReady&&db&&navigator.onLine){
-            try{
-                const{doc,getDoc}=window.firestore;
-                const snap=await getDoc(doc(db,"settings","security"));
-                if(snap.exists()){
-                    const cd=snap.data();
-                    if(cd.question!==q||(cd.answer||'').toLowerCase()!==a){msg.className='forgot-msg error';msg.innerText='❌ Cloud verification failed.';return;}
-                }
-            }catch(e){console.warn(e);}
-        }
         msg.className='forgot-msg success';
         msg.innerText='✅ Verified! Set new PIN.';
         forgotPinVerified=true;
@@ -818,58 +766,34 @@ async function handleForgotPin(){
         if(np!==cp){msg.className='forgot-msg error';msg.innerText='PINs do not match.';return;}
         ACCESS_PIN=np;
         localStorage.setItem('kwi_access_pin',np);
-        if(firebaseReady&&db&&navigator.onLine){
-            try{
-                const{doc,setDoc}=window.firestore;
-                await setDoc(doc(db,"settings","pin"),{pin:np,updatedAt:new Date().toISOString()});
-            }catch(e){console.warn(e);}
-        }
         msg.className='forgot-msg success';
-        msg.innerText='✅ PIN reset successfully!';
-        setTimeout(()=>{closeForgotPinModal();showToast('PIN reset! Please login.','success');},1500);
+        msg.innerText='✅ PIN reset!';
+        setTimeout(()=>{closeForgotPinModal();showToast('PIN reset!','success');},1500);
     }
 }
 
 // ================================================================
 // SETTINGS FUNCTIONS
 // ================================================================
-async function syncSecurityFromCloud(){
-    if(!firebaseReady||!db||!navigator.onLine)return;
-    try{
-        const{doc,getDoc}=window.firestore;
-        const snap=await getDoc(doc(db,"settings","security"));
-        if(snap.exists()){
-            const d=snap.data();
-            if(d.question&&d.answer){
-                localStorage.setItem('kwi_security_question',d.question);
-                localStorage.setItem('kwi_security_answer',d.answer);
-                console.log("✅ Security synced");
-            }
-        }
-    }catch(e){console.warn(e);}
-}
-
 async function saveSecurityQuestion(){
     const q=document.getElementById('settingsSecurityQ').value;
     const a=document.getElementById('settingsSecurityA').value.trim();
-    if(!q||!a){showToast("Please select question and enter answer.","warning");return;}
+    if(!q||!a){showToast("Select question and enter answer.","warning");return;}
     localStorage.setItem('kwi_security_question',q);
     localStorage.setItem('kwi_security_answer',a.toLowerCase());
     if(firebaseReady&&db&&navigator.onLine){
         try{
             const{doc,setDoc}=window.firestore;
-            await setDoc(doc(db,"settings","security"),{question:q,answer:a.toLowerCase(),updatedAt:new Date().toISOString()});
+            await setDoc(doc(db,"settings","security"),{question:q,answer:a.toLowerCase()});
             showToast("Saved & synced!","success");
         }catch(e){showToast("Saved locally.","info");}
     }else showToast("Saved locally.","info");
     document.getElementById('settingsSecurityA').value='';
 }
-
 function loadSecurityQuestionDisplay(){
     const q=localStorage.getItem('kwi_security_question');
     if(q){const sel=document.getElementById('settingsSecurityQ');if(sel)sel.value=q;}
 }
-
 function changePin(){
     const oldP=document.getElementById('oldPin').value;
     const newP=document.getElementById('newPin').value;
@@ -880,30 +804,13 @@ function changePin(){
     ACCESS_PIN=newP;
     localStorage.setItem('kwi_access_pin',newP);
     if(firebaseReady&&db&&navigator.onLine){
-        try{const{doc,setDoc}=window.firestore;setDoc(doc(db,"settings","pin"),{pin:newP,updatedAt:new Date().toISOString()});}catch(e){}
+        try{const{doc,setDoc}=window.firestore;setDoc(doc(db,"settings","pin"),{pin:newP});}catch(e){}
     }
     document.getElementById('oldPin').value='';
     document.getElementById('newPin').value='';
     document.getElementById('confirmPin').value='';
     showToast("PIN changed!","success");
 }
-
-async function resetPinFromCloud(){
-    if(!firebaseReady||!navigator.onLine){showToast("Internet chahiye.","warning");return;}
-    try{
-        const{doc,getDoc}=window.firestore;
-        const snap=await getDoc(doc(db,"settings","pin"));
-        if(snap.exists()){
-            const cp=snap.data().pin;
-            if(cp&&cp.length===4){
-                ACCESS_PIN=cp;
-                localStorage.setItem('kwi_access_pin',cp);
-                showToast(`PIN reset: ${cp}`,"success");
-            }else showToast("Cloud PIN invalid.","error");
-        }else{showToast("Cloud PIN nahi mila. Default: 7860","info");ACCESS_PIN="7860";localStorage.setItem('kwi_access_pin',"7860");}
-    }catch(e){showToast("Reset failed: "+e.message,"error");}
-}
-
 function changeDeletePin(){
     const np=document.getElementById('newDeletePin').value;
     if(np.length!==4){showToast("Delete PIN 4 digits ka hona chahiye.","warning");return;}
@@ -940,7 +847,6 @@ function initializeApp(){
     loadSavedData();
     updateNetworkStatus();
     updatePendingCount();
-    setTimeout(()=>{loadMonthlyData();},300);
 }
 
 function switchTab(name,btn){
@@ -975,18 +881,24 @@ function generateTableRows(shiftId){
     tbody.innerHTML='';
     sections.forEach((section,index)=>{
         const tr=document.createElement('tr');
-        const ratioOpts=`<select class="multiplier" id="${shiftId}_mult_${index}" onchange="calculateShift('${shiftId}');${shiftId==='shiftA'?`syncMultiplier(${index})`:''}"><option value="1">1 (kWh)</option><option value="1000">1000 (MWh)</option><option value="8000">8000 (GWh)</option><option value="1000000">1000000 (GWh)</option></select>`;
+        const ratioOpts=`<select class="multiplier" id="${shiftId}_mult_${index}" onchange="onInputChange('${shiftId}');calculateShift('${shiftId}');${shiftId==='shiftA'?`syncMultiplier(${index})`:''}"><option value="1">1 (kWh)</option><option value="1000">1000 (MWh)</option><option value="8000">8000 (GWh)</option><option value="1000000">1000000 (GWh)</option></select>`;
         if(section==="OLD Press and Forming (20 Op)"){
-            tr.style.backgroundColor="#fef3c7";
-            tr.innerHTML=`<td><strong>${section}</strong> <small style="color:#d97706;font-size:9px;">(Auto)</small></td><td><input type="number" readonly style="background:#fef3c7;border:none;text-align:center;" value="-"></td><td><input type="number" readonly style="background:#fef3c7;border:none;text-align:center;" value="-"></td><td><input type="text" readonly style="background:#fef3c7;border:none;text-align:center;font-weight:700;color:#92400e;" value="Auto"></td><td><input type="number" class="units auto-calc-input" id="${shiftId}_units_${index}" readonly value="0"></td>`;
+            // SIMPLE STYLING - no yellow, just light gray with small Auto label
+            tr.style.backgroundColor="#f8fafc";
+            tr.innerHTML=`<td><strong>${section}</strong> <small style="color:#64748b;font-size:9px;">(Auto)</small></td><td><input type="text" readonly style="background:#f8fafc;border:none;text-align:center;color:#94a3b8;" value="—"></td><td><input type="text" readonly style="background:#f8fafc;border:none;text-align:center;color:#94a3b8;" value="—"></td><td><input type="text" readonly style="background:#f8fafc;border:none;text-align:center;color:#94a3b8;font-size:10px;" value="Auto"></td><td><input type="number" class="units" id="${shiftId}_units_${index}" readonly value="0" style="background:#f8fafc;font-weight:700;color:#1e3a8a;"></td>`;
         }else if(section==="Main Reading"){
             tr.style.backgroundColor="#f0fdf4";
-            tr.innerHTML=`<td><strong>${section}</strong></td><td><input type="number" step="any" class="prev-read" id="${shiftId}_prev_${index}" oninput="calculateShift('${shiftId}')"></td><td><input type="number" step="any" class="curr-read" id="${shiftId}_curr_${index}" oninput="calculateShift('${shiftId}');${shiftId==='shiftA'?`copyToShiftB(${index})`:''}"></td><td>${ratioOpts}</td><td><input type="number" class="units readonly-input" id="${shiftId}_units_${index}" readonly value="0"></td>`;
+            tr.innerHTML=`<td><strong>${section}</strong></td><td><input type="number" step="any" class="prev-read" id="${shiftId}_prev_${index}" oninput="onInputChange('${shiftId}');calculateShift('${shiftId}')"></td><td><input type="number" step="any" class="curr-read" id="${shiftId}_curr_${index}" oninput="onInputChange('${shiftId}');calculateShift('${shiftId}');${shiftId==='shiftA'?`copyToShiftB(${index})`:''}"></td><td>${ratioOpts}</td><td><input type="number" class="units readonly-input" id="${shiftId}_units_${index}" readonly value="0"></td>`;
         }else{
-            tr.innerHTML=`<td>${section}</td><td><input type="number" step="any" class="prev-read" id="${shiftId}_prev_${index}" oninput="calculateShift('${shiftId}')"></td><td><input type="number" step="any" class="curr-read" id="${shiftId}_curr_${index}" oninput="calculateShift('${shiftId}');${shiftId==='shiftA'?`copyToShiftB(${index})`:''}"></td><td>${ratioOpts}</td><td><input type="number" class="units readonly-input" id="${shiftId}_units_${index}" readonly value="0"></td>`;
+            tr.innerHTML=`<td>${section}</td><td><input type="number" step="any" class="prev-read" id="${shiftId}_prev_${index}" oninput="onInputChange('${shiftId}');calculateShift('${shiftId}')"></td><td><input type="number" step="any" class="curr-read" id="${shiftId}_curr_${index}" oninput="onInputChange('${shiftId}');calculateShift('${shiftId}');${shiftId==='shiftA'?`copyToShiftB(${index})`:''}"></td><td>${ratioOpts}</td><td><input type="number" class="units readonly-input" id="${shiftId}_units_${index}" readonly value="0"></td>`;
         }
         tbody.appendChild(tr);
     });
+}
+
+// When user types, mark that we are no longer showing saved data
+function onInputChange(shiftId){
+    showingSavedExtract = false;
 }
 
 function syncMultiplier(i){
@@ -1052,8 +964,16 @@ function calculateCB(){
     document.getElementById('cbValue').innerText=(w-(a+b)).toFixed(2);
     updateExtractDetails();
 }
+
+// ================================================================
+// EXTRACT DETAILS
+// ================================================================
 function updateExtractDetails(){
-    const tb=document.getElementById('extractTable');tb.innerHTML='';
+    // If showingSavedExtract is true, don't recalculate - keep the last saved table
+    if(showingSavedExtract) return;
+
+    const tb=document.getElementById('extractTable');
+    tb.innerHTML='';
     let tA=0,tB=0;
     const ar=document.getElementById('shiftATable').querySelectorAll('tr');
     const br=document.getElementById('shiftBTable').querySelectorAll('tr');
@@ -1084,8 +1004,7 @@ function updateExtractDetails(){
             const t=vA+vB;tA+=vA;tB+=vB;
             const x=document.createElement('tr');
             const isAuto=sec==="OLD Press and Forming (20 Op)";
-            if(isAuto)x.style.backgroundColor="#fef3c7";
-            x.innerHTML=`<td>${sec}${isAuto?' <small style="color:#d97706;">(Auto)</small>':''}</td><td>${vA.toFixed(2)}</td><td>${vB.toFixed(2)}</td><td class="total-highlight">${t.toFixed(2)}</td>`;
+            x.innerHTML=`<td>${sec}${isAuto?' <small style="color:#64748b;">(Auto)</small>':''}</td><td>${vA.toFixed(2)}</td><td>${vB.toFixed(2)}</td><td class="total-highlight">${t.toFixed(2)}</td>`;
             tb.appendChild(x);
         }
     });
@@ -1106,11 +1025,11 @@ function updateExtractDetails(){
 }
 
 // ================================================================
-// SAVE
+// SAVE & NEXT
 // ================================================================
 async function saveData(){
     const d=document.getElementById('reportDate').value;
-    if(!d){showToast("Please select a date.","warning");return;}
+    if(!d){showToast("Select a date.","warning");return;}
     performSave(d);
 }
 async function performSave(dateVal){
@@ -1157,8 +1076,10 @@ async function performSave(dateVal){
                 await setDoc(doc(db,"reports",dateVal),day);
                 showToast("Saved & Synced!","success");
                 removePendingSync(dateVal);
-            }catch(e){showToast("Saved locally. Will sync.","warning");queuePendingSync(dateVal,day);}
-        }else{queuePendingSync(dateVal,day);showToast("Saved locally. Auto-sync pending.","info");}
+            }catch(e){queuePendingSync(dateVal,day);showToast("Saved locally. Will sync.","warning");}
+        }else{queuePendingSync(dateVal,day);showToast("Saved locally.","info");}
+
+        // SHIFT B Current -> SHIFT A Previous
         sections.forEach((_,i)=>{
             if(i===OLD_PRESS_INDEX)return;
             const bc=document.getElementById('shiftB_curr_'+i)?.value||"";
@@ -1169,22 +1090,233 @@ async function performSave(dateVal){
                 document.getElementById('shiftA_prev_'+i).value=bc;
                 document.getElementById('shiftA_mult_'+i).value=bm;
             }
+            // CLEAR Shift A & B current + Shift B prev
             document.getElementById('shiftA_curr_'+i).value="";
             document.getElementById('shiftB_curr_'+i).value="";
             document.getElementById('shiftB_prev_'+i).value="";
-            document.getElementById('shiftA_units_'+i).value="0";
-            document.getElementById('shiftB_units_'+i).value="0";
         });
-        ['shiftATotalUnits','shiftBTotalUnits','shiftASheet','shiftBSheet','shiftACBM','shiftBCBM','shiftAUSheet','shiftBUSheet','shiftAUCBM','shiftBUCBM'].forEach(id=>document.getElementById(id).value='0');
+        // Clear press inputs
         ['shiftAPressL1','shiftAPressL2','shiftBPressL1','shiftBPressL2'].forEach(id=>document.getElementById(id).value="");
         ['shiftASheetL1','shiftASheetL2','shiftBSheetL1','shiftBSheetL2'].forEach(id=>document.getElementById(id).innerText="0");
+
+        // Clear summary grid
+        ['shiftATotalUnits','shiftBTotalUnits','shiftASheet','shiftBSheet','shiftACBM','shiftBCBM','shiftAUSheet','shiftBUSheet','shiftAUCBM','shiftBUCBM'].forEach(id=>document.getElementById(id).value='0');
+
+        // WAPDA Curr -> Prev
         const wc=document.getElementById('wapdaCurr').value;
         if(wc!==""){localStorage.setItem('wapdaPrev',wc);document.getElementById('wapdaPrev').value=wc;document.getElementById('wapdaCurr').value="";document.getElementById('wapdaTotal').value="0";}
-        document.getElementById('cbValue').innerText='0.00';
-        calculateShift('shiftA');calculateShift('shiftB');
+
+        // IMPORTANT: Set flag BEFORE recalculating so extract table stays with saved values
+        showingSavedExtract = true;
+        // Recalculate shift units (but extract table will not update)
+        calculateShiftForSave('shiftA');
+        calculateShiftForSave('shiftB');
+        // Now populate extract table with SAVED values (from day object)
+        populateExtractFromSaved(day);
+
         hideLoading();
         showToast(`Data Saved for ${dateVal}!`,"success");
     }catch(e){hideLoading();showToast("Save failed: "+e.message,"error");}
+}
+
+// Recalculate shift units only (not extract details)
+function calculateShiftForSave(shiftId){
+    const tbody=document.getElementById(shiftId+'Table');
+    const rows=tbody.querySelectorAll('tr');
+    let otherSum=0,mainUnits=0;
+    rows.forEach((row,i)=>{
+        const sec=sections[i];
+        const pv=row.querySelector('.prev-read')?.value||"";
+        const cv=row.querySelector('.curr-read')?.value||"";
+        const m=parseFloat(row.querySelector('.multiplier')?.value)||1;
+        let u=0;
+        if(pv!==""&&cv!=="")u=((parseFloat(cv)||0)-(parseFloat(pv)||0))*m;
+        if(isNaN(u))u=0;
+        if(sec==="Main Reading"){mainUnits=u;row.querySelector('.units').value=u.toFixed(2);}
+        else if(sec==="OLD Press and Forming (20 Op)"){}
+        else{otherSum+=u;row.querySelector('.units').value=u.toFixed(2);}
+    });
+    const oldP=mainUnits-otherSum;
+    rows.forEach((row,i)=>{if(sections[i]==="OLD Press and Forming (20 Op)")row.querySelector('.units').value=oldP.toFixed(2);});
+    document.getElementById(shiftId+'TotalUnits').value=mainUnits.toFixed(2);
+    const sh=parseFloat(document.getElementById(shiftId+'Sheet').value)||0;
+    const cb=parseFloat(document.getElementById(shiftId+'CBM').value)||0;
+    document.getElementById(shiftId+'USheet').value=sh>0?(mainUnits/sh).toFixed(2):0;
+    document.getElementById(shiftId+'UCBM').value=cb>0?(mainUnits/cb).toFixed(2):0;
+    calculateCB();
+}
+
+// Populate extract table from SAVED day data (keeps values until next input)
+function populateExtractFromSaved(day){
+    const tb=document.getElementById('extractTable');
+    tb.innerHTML='';
+    let tA=0,tB=0;
+    let tr=document.createElement('tr');
+    tr.innerHTML=`<td><strong>WAPDA Total</strong></td><td>-</td><td>-</td><td class="total-highlight">${day.wapda.toFixed(2)}</td>`;
+    tb.appendChild(tr);
+    tr=document.createElement('tr');
+    tr.innerHTML=`<td><strong>CB (Chipboard)</strong></td><td>-</td><td>-</td><td class="total-highlight">${day.cb.toFixed(2)}</td>`;
+    tb.appendChild(tr);
+
+    // Compute section units from saved rawData
+    const secUnitsA = {};
+    const secUnitsB = {};
+    sections.forEach((sec,i)=>{
+        if(sec==="OLD Press and Forming (20 Op)"){
+            // Auto - computed later
+            return;
+        }
+        const pA=parseFloat(day.rawData['shiftA_prev_'+i])||0;
+        const cA=parseFloat(day.rawData['shiftA_curr_'+i])||0;
+        const mA=parseFloat(day.rawData['shiftA_mult_'+i])||1;
+        const pB=parseFloat(day.rawData['shiftB_prev_'+i])||0;
+        const cB=parseFloat(day.rawData['shiftB_curr_'+i])||0;
+        const mB=parseFloat(day.rawData['shiftB_mult_'+i])||1;
+        secUnitsA[sec]=(cA-pA)*mA;
+        secUnitsB[sec]=(cB-pB)*mB;
+    });
+
+    // Old Press = Main Reading - Others
+    let mainA=secUnitsA["Main Reading"]||0;
+    let mainB=secUnitsB["Main Reading"]||0;
+    let otherA=0, otherB=0;
+    sections.forEach(sec=>{
+        if(sec==="Main Reading"||sec==="OLD Press and Forming (20 Op)")return;
+        otherA+=secUnitsA[sec]||0;
+        otherB+=secUnitsB[sec]||0;
+    });
+    secUnitsA["OLD Press and Forming (20 Op)"]=mainA-otherA;
+    secUnitsB["OLD Press and Forming (20 Op)"]=mainB-otherB;
+
+    let sA=0,sB=0;
+    sections.forEach((sec)=>{
+        let vA=secUnitsA[sec]||0;
+        let vB=secUnitsB[sec]||0;
+        if(sec==="Sanding"){sA+=vA;sB+=vB;}
+        else if(sec==="Sanding Blower"){
+            sA+=vA;sB+=vB;const t=sA+sB;tA+=sA;tB+=sB;
+            const x=document.createElement('tr');
+            x.innerHTML=`<td><strong>Sanding (Subtotal)</strong></td><td>${sA.toFixed(2)}</td><td>${sB.toFixed(2)}</td><td class="total-highlight">${t.toFixed(2)}</td>`;
+            tb.appendChild(x);
+        }else if(sec==="Main Reading"){
+            const t=vA+vB;tA=vA;tB=vB;
+            const x=document.createElement('tr');x.style.backgroundColor="#f0fdf4";
+            x.innerHTML=`<td><strong>Main Reading</strong></td><td>${vA.toFixed(2)}</td><td>${vB.toFixed(2)}</td><td class="total-highlight">${t.toFixed(2)}</td>`;
+            tb.appendChild(x);
+        }else{
+            const t=vA+vB;tA+=vA;tB+=vB;
+            const x=document.createElement('tr');
+            const isAuto=sec==="OLD Press and Forming (20 Op)";
+            x.innerHTML=`<td>${sec}${isAuto?' <small style="color:#64748b;">(Auto)</small>':''}</td><td>${vA.toFixed(2)}</td><td>${vB.toFixed(2)}</td><td class="total-highlight">${t.toFixed(2)}</td>`;
+            tb.appendChild(x);
+        }
+    });
+    const addR=(l,a,b)=>{
+        const x=document.createElement('tr');
+        x.innerHTML=`<td><strong>${l}</strong></td><td>${a.toFixed(2)}</td><td>${b.toFixed(2)}</td><td class="total-highlight">${(a+b).toFixed(2)}</td>`;
+        tb.appendChild(x);
+    };
+    addR('Press L1 (Loads)',day.pressL1A||0,day.pressL1B||0);
+    addR('Press L2 (Loads)',day.pressL2A||0,day.pressL2B||0);
+    addR('Sheet Total',day.sheetA||0,day.sheetB||0);
+    addR('CBM Total',day.cbmA||0,day.cbmB||0);
+    addR('U/Sheet (Overall)',day.sheetA>0?day.shiftATotal/day.sheetA:0,day.sheetB>0?day.shiftBTotal/day.sheetB:0);
+    addR('U/CBM (Overall)',day.cbmA>0?day.shiftATotal/day.cbmA:0,day.cbmB>0?day.shiftBTotal/day.cbmB:0);
+    const g=document.createElement('tr');
+    g.innerHTML=`<td style="background:#e2e8f0;"><strong>GRAND TOTAL</strong></td><td style="background:#e2e8f0;">${tA.toFixed(2)}</td><td style="background:#e2e8f0;">${tB.toFixed(2)}</td><td style="background:#e2e8f0;font-weight:bold;color:#1e3a8a;">${(tA+tB).toFixed(2)}</td>`;
+    tb.appendChild(g);
+}
+
+// ================================================================
+// IMAGE SAVE (Phone Gallery Support)
+// ================================================================
+async function saveAsImage(tab){
+    showLoading();
+    const targetMap={daily:'dailyTab',monthly:'monthlyTab',weekly:'weeklyTab',yearly:'yearlyTab',linewise:'linewiseTab'};
+    const target=document.getElementById(targetMap[tab]);
+    const btns=target.querySelectorAll('.btn-container');
+    btns.forEach(b=>b.style.display='none');
+    try{
+        const canvas=await html2canvas(target,{scale:2,backgroundColor:'#ffffff',useCORS:true,logging:false});
+        btns.forEach(b=>b.style.display='flex');
+        hideLoading();
+        showImagePreview(canvas,tab);
+    }catch(e){
+        btns.forEach(b=>b.style.display='flex');
+        hideLoading();
+        showToast('Image failed: '+e.message,"error");
+    }
+}
+
+function showImagePreview(canvas,tab){
+    const dataURL=canvas.toDataURL('image/png');
+    const fileName=`Kashmir_${tab}_${new Date().toISOString().split('T')[0]}.png`;
+
+    const modal=document.createElement('div');
+    modal.className='img-preview-modal';
+    modal.innerHTML=`
+        <div class="img-preview-header">
+            <div style="font-size:14px;font-weight:700;">📷 Image Ready - ${tab.toUpperCase()}</div>
+            <button class="img-preview-close" onclick="this.closest('.img-preview-modal').remove()">✕</button>
+        </div>
+        <div class="img-preview-body">
+            <img id="previewImage" src="${dataURL}" />
+        </div>
+        <div class="img-preview-hint">
+            💡 <strong>Mobile par:</strong> Image ko <u>long press</u> karein → "Save Image" / "Download Image"<br>
+            💡 <strong>Ya Share button</strong> dabayen → WhatsApp / Gallery select karein
+        </div>
+        <div class="img-preview-actions">
+            <button class="img-btn" id="shareBtn" style="background:#25D366;">📲 Share / Save</button>
+            <button class="img-btn" id="downloadBtn" style="background:#3b82f6;">💾 Download</button>
+            <button class="img-btn" id="copyBtn" style="background:#8b5cf6;">📋 Copy</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    // Share button (opens Android share sheet - works in APK)
+    modal.querySelector('#shareBtn').onclick=async()=>{
+        try{
+            canvas.toBlob(async blob=>{
+                const file=new File([blob],fileName,{type:'image/png'});
+                if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
+                    try{
+                        await navigator.share({
+                            files:[file],
+                            title:'Kashmir Wood Industry Report',
+                            text:'Production Report'
+                        });
+                        showToast("Shared!","success");
+                    }catch(err){
+                        if(err.name!=='AbortError')showToast("Share cancelled","info");
+                    }
+                }else{
+                    // Fallback download
+                    const link=document.createElement('a');
+                    link.download=fileName;link.href=dataURL;link.click();
+                    showToast("Image downloaded!","success");
+                }
+            },'image/png');
+        }catch(e){showToast("Share failed","error");}
+    };
+
+    // Download button
+    modal.querySelector('#downloadBtn').onclick=()=>{
+        const link=document.createElement('a');
+        link.download=fileName;link.href=dataURL;
+        document.body.appendChild(link);link.click();document.body.removeChild(link);
+        showToast("Downloaded! Check Downloads/Gallery","success");
+    };
+
+    // Copy button
+    modal.querySelector('#copyBtn').onclick=async()=>{
+        try{
+            canvas.toBlob(async blob=>{
+                await navigator.clipboard.write([new ClipboardItem({'image/png':blob})]);
+                showToast("Copied! Paste in WhatsApp","success");
+            });
+        }catch(e){showToast("Copy not supported","warning");}
+    };
 }
 
 async function syncToFirebase(){
@@ -1201,9 +1333,6 @@ async function syncToFirebase(){
     }catch(e){hideLoading();showToast("Sync failed: "+e.message,"error");}
 }
 
-// ================================================================
-// WHATSAPP / IMAGE / PRINT
-// ================================================================
 function copyForWhatsApp(){
     let t=`*KASHMIR WOOD INDUSTRY*\n*Daily Report*\nDate: ${document.getElementById('reportDate').value}\n\n`;
     t+=`*SHIFT A (DAY)*\nTotal Units: ${document.getElementById('shiftATotalUnits').value}\nPress L1: ${document.getElementById('shiftAPressL1').value||0} loads\nPress L2: ${document.getElementById('shiftAPressL2').value||0} loads\nSheet: ${document.getElementById('shiftASheet').value}\nCBM: ${document.getElementById('shiftACBM').value}\n\n`;
@@ -1211,34 +1340,9 @@ function copyForWhatsApp(){
     t+=`*WAPDA & CB*\nWAPDA: ${document.getElementById('wapdaTotal').value}\nCB: ${document.getElementById('cbValue').innerText}\n`;
     navigator.clipboard.writeText(t).then(()=>showToast("Copied!","success"));
 }
-async function saveAsImage(tab){
-    showLoading();
-    const tm={daily:'dailyTab',monthly:'monthlyTab',weekly:'weeklyTab',yearly:'yearlyTab',linewise:'linewiseTab'};
-    const target=document.getElementById(tm[tab]);
-    const btns=target.querySelectorAll('.btn-container');
-    btns.forEach(b=>b.style.display='none');
-    try{
-        const canvas=await html2canvas(target,{scale:2,backgroundColor:'#ffffff',useCORS:true});
-        btns.forEach(b=>b.style.display='flex');
-        hideLoading();
-        canvas.toBlob(blob=>{
-            const file=new File([blob],`Kashmir_${tab}_${new Date().toISOString().split('T')[0]}.png`,{type:'image/png'});
-            if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
-                navigator.share({files:[file],title:'Kashmir Report'}).then(()=>showToast("Shared!","success")).catch(err=>{if(err.name!=='AbortError')downloadImage(canvas);});
-            }else downloadImage(canvas);
-        },'image/png');
-    }catch(e){btns.forEach(b=>b.style.display='flex');hideLoading();showToast('Image failed.',"error");}
-}
-function downloadImage(canvas){
-    const link=document.createElement('a');
-    link.download=`Kashmir_Report_${new Date().toISOString().split('T')[0]}.png`;
-    link.href=canvas.toDataURL('image/png');
-    link.click();showToast("Image saved!","success");
-}
-function printReport(){window.print();}
 
 // ================================================================
-// MONTHLY (4 CHARTS)
+// MONTHLY
 // ================================================================
 let chartUnits=null,chartSheets=null,chartCBM=null,chartAvg=null,chartWeekly=null,chartYearly=null,chartLinewise=null;
 
@@ -1261,13 +1365,9 @@ function updateMonthlyStats(data){
     const au=tu/data.length;
     const aus=ts>0?tu/ts:0;
     const auc=tc>0?tu/tc:0;
-    const h=Math.floor(data.length/2);
-    const af=h>0?data.slice(0,h).reduce((s,d)=>s+d.totalUnits,0)/h:0;
-    const as=h>0?data.slice(h).reduce((s,d)=>s+d.totalUnits,0)/(data.length-h):0;
-    const tr=af>0?((as-af)/af)*100:0;
     c.innerHTML=`
-        <div class="stat-card units"><div class="stat-label">Total Units</div><div class="stat-value">${tu.toFixed(0)}</div><div class="stat-sub ${tr>=0?'stat-change up':'stat-change down'}">${tr>=0?'▲':'▼'} ${Math.abs(tr).toFixed(1)}%</div></div>
-        <div class="stat-card units"><div class="stat-label">Avg Daily Units</div><div class="stat-value">${au.toFixed(0)}</div></div>
+        <div class="stat-card units"><div class="stat-label">Total Units</div><div class="stat-value">${tu.toFixed(0)}</div></div>
+        <div class="stat-card units"><div class="stat-label">Avg Daily</div><div class="stat-value">${au.toFixed(0)}</div></div>
         <div class="stat-card sheets"><div class="stat-label">Total Sheets</div><div class="stat-value">${ts.toFixed(0)}</div></div>
         <div class="stat-card cbm"><div class="stat-label">Total CBM</div><div class="stat-value">${tc.toFixed(1)}</div></div>
         <div class="stat-card avg"><div class="stat-label">Avg U/Sheet</div><div class="stat-value">${aus.toFixed(2)}</div></div>
@@ -1287,7 +1387,7 @@ function drawMonthlyCharts(data){
     const c=data.map(d=>d.cbm);
     const us=data.map(d=>d.usheet);
     const uc=data.map(d=>d.ucbm);
-    chartUnits=new Chart(document.getElementById('chartUnits'),{type:'line',data:{labels,datasets:[{label:'Units',data:u,borderColor:'#1e3a8a',backgroundColor:'rgba(30,58,138,0.1)',fill:true,tension:0.3,pointRadius:6,pointBackgroundColor:u.map((v,i)=>i>0&&v<u[i-1]?'#dc2626':'#16a34a')}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:false,grid:{color:'#e2e8f0'}},x:{grid:{display:false}}}}});
+    chartUnits=new Chart(document.getElementById('chartUnits'),{type:'line',data:{labels,datasets:[{label:'Units',data:u,borderColor:'#1e3a8a',backgroundColor:'rgba(30,58,138,0.1)',fill:true,tension:0.3,pointRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:false,grid:{color:'#e2e8f0'}},x:{grid:{display:false}}}}});
     chartSheets=new Chart(document.getElementById('chartSheets'),{type:'bar',data:{labels,datasets:[{label:'Sheets',data:s,backgroundColor:'#059669',borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'#e2e8f0'}},x:{grid:{display:false}}}}});
     chartCBM=new Chart(document.getElementById('chartCBM'),{type:'bar',data:{labels,datasets:[{label:'CBM',data:c,backgroundColor:'#d97706',borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'#e2e8f0'}},x:{grid:{display:false}}}}});
     chartAvg=new Chart(document.getElementById('chartAvg'),{type:'line',data:{labels,datasets:[{label:'U/Sheet',data:us,borderColor:'#7c3aed',backgroundColor:'rgba(124,58,237,0.1)',fill:false,tension:0.3,pointRadius:5},{label:'U/CBM',data:uc,borderColor:'#f59e0b',backgroundColor:'rgba(245,158,11,0.1)',fill:false,tension:0.3,pointRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'top'}},scales:{y:{beginAtZero:false,grid:{color:'#e2e8f0'}},x:{grid:{display:false}}}}});
@@ -1304,6 +1404,17 @@ function renderMonthlyTable(data){
         tr.innerHTML=`<td>${d.date.substring(8)}</td><td>${d.shiftATotal.toFixed(0)}</td><td>${d.shiftBTotal.toFixed(0)}</td><td style="font-weight:700;">${d.totalUnits.toFixed(0)}</td><td>${d.sheet.toFixed(0)}</td><td>${d.cbm.toFixed(1)}</td><td>${d.usheet.toFixed(2)}</td><td>${d.ucbm.toFixed(2)}</td><td>${d.wapda.toFixed(0)}</td><td>${d.cb.toFixed(0)}</td><td class="stat-change ${cls}" style="font-weight:700;">${pct}</td>`;
         tb.appendChild(tr);
     });
+}
+function copyMonthlyForWhatsApp(){
+    const m=document.getElementById('reportMonth').value;
+    if(!m){showToast("Select month.","warning");return;}
+    const d=JSON.parse(localStorage.getItem('monthlyData_'+m)||'[]');
+    if(d.length===0){showToast("No data.","warning");return;}
+    const tu=d.reduce((s,x)=>s+x.totalUnits,0);
+    const ts=d.reduce((s,x)=>s+x.sheet,0);
+    const tc=d.reduce((s,x)=>s+x.cbm,0);
+    let t=`*KASHMIR WOOD INDUSTRY*\n*Monthly Report*\nMonth: ${m}\nTotal Units: ${tu.toFixed(0)}\nTotal Sheet: ${ts.toFixed(0)}\nTotal CBM: ${tc.toFixed(1)}\n`;
+    navigator.clipboard.writeText(t).then(()=>showToast("Copied!","success"));
 }
 
 // ================================================================
@@ -1405,15 +1516,15 @@ function loadLineWiseData(){
         <div class="stat-card"><div class="stat-label">Line 1 Sheets</div><div class="stat-value" style="color:#3b82f6;">${l1t.toFixed(0)}</div></div>
         <div class="stat-card"><div class="stat-label">Line 2 Sheets</div><div class="stat-value" style="color:#f59e0b;">${l2t.toFixed(0)}</div></div>
         <div class="stat-card"><div class="stat-label">Grand Total</div><div class="stat-value">${g.toFixed(0)}</div></div>
-        <div class="stat-card"><div class="stat-label">Line 1 Share</div><div class="stat-value">${g>0?((l1t/g)*100).toFixed(1):0}%</div></div>
-        <div class="stat-card"><div class="stat-label">Line 2 Share</div><div class="stat-value">${g>0?((l2t/g)*100).toFixed(1):0}%</div></div>
+        <div class="stat-card"><div class="stat-label">Line 1 %</div><div class="stat-value">${g>0?((l1t/g)*100).toFixed(1):0}%</div></div>
+        <div class="stat-card"><div class="stat-label">Line 2 %</div><div class="stat-value">${g>0?((l2t/g)*100).toFixed(1):0}%</div></div>
         <div class="stat-card"><div class="stat-label">Days</div><div class="stat-value">${data.length}</div></div>`;
     if(chartLinewise)chartLinewise.destroy();
     chartLinewise=new Chart(document.getElementById('chartCanvasLinewise'),{type:'bar',data:{labels:data.map(d=>d.date.substring(8)),datasets:[{label:'Line 1',data:data.map(d=>(d.pressL1A||0)*20+(d.pressL1B||0)*20),backgroundColor:'#3b82f6',borderRadius:4},{label:'Line 2',data:data.map(d=>(d.pressL2A||0)*30+(d.pressL2B||0)*30),backgroundColor:'#f59e0b',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'top'}},scales:{y:{beginAtZero:true,grid:{color:'#e2e8f0'}},x:{grid:{display:false}}}}});
 }
 
 // ================================================================
-// EDIT & DELETE
+// EDIT & DELETE & LOAD
 // ================================================================
 function editLastEntry(){
     const last=JSON.parse(localStorage.getItem('lastSavedData')||'null');
@@ -1431,6 +1542,7 @@ function editLastEntry(){
         });
     });
     if(last.wapdaPrev)document.getElementById('wapdaPrev').value=last.wapdaPrev;
+    showingSavedExtract=false;
     calculatePressSheets('shiftA');calculatePressSheets('shiftB');
     calculateShift('shiftA');calculateShift('shiftB');
     showToast("Loaded for editing.","info");
@@ -1462,10 +1574,11 @@ function loadSavedData(){
         const mb=localStorage.getItem('shiftB_mult_'+i);if(mb&&document.getElementById('shiftB_mult_'+i))document.getElementById('shiftB_mult_'+i).value=mb;
     });
     const wp=localStorage.getItem('wapdaPrev');if(wp)document.getElementById('wapdaPrev').value=wp;
+    showingSavedExtract=false;
     calculateShift('shiftA');calculateShift('shiftB');
 }
 function promptClear(){
-    showConfirm("Clear All Data?","Yeh saara current daily data clear ho jayega. Monthly history safe rahegi.",()=>{
+    showConfirm("Clear All Data?","Saara current daily data clear hoga. Monthly history safe rahegi.",()=>{
         sections.forEach((_,i)=>{
             localStorage.removeItem('shiftA_prev_'+i);
             localStorage.removeItem('shiftB_prev_'+i);
@@ -1477,30 +1590,18 @@ function promptClear(){
         document.querySelectorAll('.units').forEach(inp=>inp.value='0');
         ['shiftATotalUnits','shiftBTotalUnits','shiftASheet','shiftBSheet','shiftACBM','shiftBCBM','shiftAUSheet','shiftBUSheet','shiftAUCBM','shiftBUCBM','wapdaTotal'].forEach(id=>document.getElementById(id).value='0');
         document.getElementById('cbValue').innerText='0.00';
+        showingSavedExtract=false;
         updateExtractDetails();calculateCB();showToast("Cleared.","info");
     });
-}
-
-function copyMonthlyForWhatsApp(){
-    const m=document.getElementById('reportMonth').value;
-    if(!m){showToast("Select month first.","warning");return;}
-    const d=JSON.parse(localStorage.getItem('monthlyData_'+m)||'[]');
-    if(d.length===0){showToast("No data.","warning");return;}
-    const tu=d.reduce((s,x)=>s+x.totalUnits,0);
-    const ts=d.reduce((s,x)=>s+x.sheet,0);
-    const tc=d.reduce((s,x)=>s+x.cbm,0);
-    let t=`*KASHMIR WOOD INDUSTRY*\n*Monthly Report*\nMonth: ${m}\n-------------------------\nTotal Units: ${tu.toFixed(0)}\nTotal Sheet: ${ts.toFixed(0)}\nTotal CBM: ${tc.toFixed(1)}\n`;
-    navigator.clipboard.writeText(t).then(()=>showToast("Copied!","success"));
 }
 
 // ================================================================
 // INIT
 // ================================================================
 window.onload=function(){
-    if(!checkSession())console.log("🔐 PIN required");
+    if(!checkSession()){}
     updateNetworkStatus();
 };
-window.addEventListener('resize',()=>{});
 setInterval(()=>{
     try{
         if(!appInitialized)return;
