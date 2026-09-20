@@ -31,6 +31,11 @@ jobs:
       - name: 🔧 Add Android Platform
         run: npx cap add android
 
+      - name: 🔐 Add Permissions to AndroidManifest
+        run: |
+          MANIFEST="android/app/src/main/AndroidManifest.xml"
+          sed -i 's|<application|<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>\n    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>\n    <application|' $MANIFEST
+
       - name: 🔄 Sync Capacitor
         run: npx cap sync android
 
